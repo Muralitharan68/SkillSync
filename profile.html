@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Skill Exchange</title>
+
+    <link rel="stylesheet" href="profile.css">
+
+    <!-- Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Sidebar -->
+
+        <aside class="sidebar">
+
+            <h2>SkillSync</h2>
+
+            <ul>
+
+                <li><i class="fa-solid fa-house"></i> Dashboard</li>
+
+                <li class="active">
+                    <i class="fa-solid fa-user"></i> Profile
+                </li>
+
+                <li><i class="fa-solid fa-code"></i> My Skills</li>
+
+                <li><i class="fa-solid fa-magnifying-glass"></i> Find Skills</li>
+
+                <li><i class="fa-solid fa-handshake"></i> Matches</li>
+
+                <li><i class="fa-solid fa-comments"></i> Chat</li>
+
+                <li><i class="fa-solid fa-calendar"></i> Sessions</li>
+
+                <li><i class="fa-solid fa-star"></i> Reviews</li>
+
+                <li><i class="fa-solid fa-bell"></i> Notifications</li>
+
+                <li><i class="fa-solid fa-gear"></i> Settings</li>
+
+                <li><i class="fa-solid fa-right-from-bracket"></i> Logout</li>
+
+            </ul>
+
+        </aside>
+
+        <!-- Main -->
+
+        <main class="content">
+
+            <div class="header">
+
+                <h1>My Profile</h1>
+
+                <button id="editBtn">Edit Profile</button>
+
+            </div>
+
+            <div class="profile-card">
+
+                <div class="profile-top">
+
+                    <img src="profile.png" alt="Profile">
+
+                    <div>
+
+                        <h2 id="nameText">Ruban Kumar</h2>
+
+                        <p>Full Stack Developer</p>
+
+                        <span>📍 Salem, Tamil Nadu</span>
+
+                    </div>
+
+                </div>
+
+                <div class="profile-info">
+
+                    <div>
+
+                        <label>Name</label>
+
+                        <input type="text" id="name" value="Ruban Kumar" disabled>
+
+                    </div>
+
+                    <div>
+
+                        <label>Email</label>
+
+                        <input type="email" id="email"
+                            value="ruban@gmail.com" disabled>
+
+                    </div>
+
+                    <div>
+
+                        <label>College</label>
+
+                        <input type="text"
+                            value="Selvam College of Technology"
+                            disabled>
+
+                    </div>
+
+                    <div>
+
+                        <label>Department</label>
+
+                        <input type="text"
+                            value="Computer Science Engineering"
+                            disabled>
+
+                    </div>
+
+                </div>
+
+                <div class="bio">
+
+                    <h3>About Me</h3>
+
+                    <textarea id="about" disabled>
+Passionate Full Stack Developer interested in Web Development and UI/UX Design.
+                    </textarea>
+
+                </div>
+
+                <div class="skills">
+
+                    <h3>Skills</h3>
+
+                    <span>HTML</span>
+
+                    <span>CSS</span>
+
+                    <span>JavaScript</span>
+
+                    <span>Python</span>
+
+                    <span>React</span>
+
+                </div>
+
+                <button id="saveBtn">Save Changes</button>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="profile.js"></script>
+
+</body>
+
+</html>
