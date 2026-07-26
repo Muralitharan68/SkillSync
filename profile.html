@@ -4,15 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile | Skill Exchange</title>
+    <title>My Profile | SkillSync</title>
 
     <link rel="stylesheet" href="profile.css">
 
-    <!-- Poppins Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Icons -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
@@ -71,21 +69,25 @@
 
             <div class="profile-card">
 
+                <!-- Profile Top -->
+
                 <div class="profile-top">
 
                     <img src="profile.png" alt="Profile">
 
                     <div>
 
-                        <h2 id="nameText">Ruban Kumar</h2>
+                        <h2 id="nameText">Loading...</h2>
 
-                        <p>Full Stack Developer</p>
+                        <p>SkillSync User</p>
 
-                        <span>📍 Salem, Tamil Nadu</span>
+                        <span>📍 Tamil Nadu</span>
 
                     </div>
 
                 </div>
+
+                <!-- Profile Info -->
 
                 <div class="profile-info">
 
@@ -93,7 +95,10 @@
 
                         <label>Name</label>
 
-                        <input type="text" id="name" value="Ruban Kumar" disabled>
+                        <input
+                            type="text"
+                            id="name"
+                            disabled>
 
                     </div>
 
@@ -101,8 +106,10 @@
 
                         <label>Email</label>
 
-                        <input type="email" id="email"
-                            value="ruban@gmail.com" disabled>
+                        <input
+                            type="email"
+                            id="email"
+                            disabled>
 
                     </div>
 
@@ -110,8 +117,9 @@
 
                         <label>College</label>
 
-                        <input type="text"
-                            value="Selvam College of Technology"
+                        <input
+                            type="text"
+                            id="college"
                             disabled>
 
                     </div>
@@ -120,23 +128,28 @@
 
                         <label>Department</label>
 
-                        <input type="text"
-                            value="Computer Science Engineering"
+                        <input
+                            type="text"
+                            id="department"
                             disabled>
 
                     </div>
 
                 </div>
 
+                <!-- About -->
+
                 <div class="bio">
 
                     <h3>About Me</h3>
 
-                    <textarea id="about" disabled>
-Passionate Full Stack Developer interested in Web Development and UI/UX Design.
-                    </textarea>
+                    <textarea
+                        id="about"
+                        disabled></textarea>
 
                 </div>
+
+                <!-- Skills -->
 
                 <div class="skills">
 
@@ -154,7 +167,9 @@ Passionate Full Stack Developer interested in Web Development and UI/UX Design.
 
                 </div>
 
-                <button id="saveBtn">Save Changes</button>
+                <button id="saveBtn">
+                    Save Changes
+                </button>
 
             </div>
 

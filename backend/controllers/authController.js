@@ -92,10 +92,21 @@ const login = (req, res) => {
 
 };
 
-// middleware
+// profile process
+
 const profile = (req, res) => {
 
-    const sql = "SELECT id, name, email FROM users WHERE id = ?";
+    const sql = `
+        SELECT
+            id,
+            name,
+            email,
+            college,
+            department,
+            about
+        FROM users
+        WHERE id = ?
+    `;
 
     db.query(sql, [req.user.id], (err, result) => {
 
@@ -122,8 +133,47 @@ const profile = (req, res) => {
 
 };
 
+
+const updateProfile = (req, res) => {
+
+    console.log("BODY:", req.body);
+    console.log("USER:", req.user);
+
+    const { name, email, college, department, about } = req.body;
+
+    const sql = `
+        UPDATE users
+        SET name = ?, email = ?, college = ?, department = ?, about = ?
+        WHERE id = ?
+    `;
+
+    db.query(
+        sql,
+        [name, email, college, department, about, req.user.id],
+        (err, result) => {
+
+            if (err) {
+                console.log("MYSQL ERROR:", err);   // 👈 idha add pannu
+
+                return res.status(500).json({
+                    success: false,
+                    message: err.message
+                });
+            }
+
+            res.json({
+                success: true,
+                message: "Profile Updated Successfully"
+            });
+
+        }
+    );
+
+};
+
 module.exports = {
     register,
     login,
-    profile
+    profile,
+    updateProfile
 };

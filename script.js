@@ -1,72 +1,104 @@
 const API = "http://localhost:5000/api/auth";
+
+// ================= REGISTER =================
+
 function register() {
 
-    let user = {
+    const user = {
+
         name: document.getElementById("name").value,
         email: document.getElementById("email").value,
         password: document.getElementById("password").value,
         skills: document.getElementById("skills").value.split(",")
+
     };
 
-    fetch("http://127.0.0.1:5000/api/auth/register", {
+    fetch(API + "/register", {
+
         method: "POST",
+
         headers: {
             "Content-Type": "application/json"
         },
+
         body: JSON.stringify(user)
+
     })
+
     .then(res => res.json())
+
     .then(data => {
 
         alert(data.message);
 
         if (data.success) {
+
             window.location.href = "login.html";
+
         }
 
     })
-    .catch(error => {
-        console.error(error);
-        alert("Fetch Error");
+
+    .catch(err => {
+
+        console.log(err);
+
+        alert("Registration Failed");
+
     });
 
 }
-function login(){
 
-let user={
+// ================= LOGIN =================
 
-email:
-document.getElementById("loginEmail").value,
-password:
-document.getElementById("loginPassword").value
+function login() {
 
-};
+    const user = {
 
-fetch(API+"/login",{
-method:"POST",
-headers:{"Content-Type":"application/json"
+        email: document.getElementById("loginEmail").value,
+        password: document.getElementById("loginPassword").value
 
-},
+    };
 
-body:JSON.stringify(user)
+    fetch(API + "/login", {
 
-})
-.then(res => res.json())
-.then(data => {
+        method: "POST",
 
-    alert(data.message);
+        headers: {
+            "Content-Type": "application/json"
+        },
 
-    if(data.success){
+        body: JSON.stringify(user)
 
-        localStorage.setItem("token", data.token);
+    })
 
-        // Temporary username save
-        localStorage.setItem("username", user.email);
+    .then(res => res.json())
 
-        window.location = "dashboard.html";
+    .then(data => {
 
-    }
+        if (data.success) {
 
-});
+            // JWT Token Save
+            localStorage.setItem("token", data.token);
+
+            alert("Login Successful ✅");
+
+            window.location.href = "dashboard.html";
+
+        } else {
+
+            alert(data.message);
+
+        }
+
+    })
+
+    .catch(err => {
+
+        console.log(err);
+
+        alert("Login Failed");
+
+    });
 
 }
