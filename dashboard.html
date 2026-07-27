@@ -6,8 +6,7 @@
     <title>SkillSync Dashboard</title>
 
     <link rel="stylesheet" href="dashboard.css">
-
-    <!-- Font Awesome -->
+    
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
@@ -29,7 +28,7 @@
                 Dashboard
             </li>
 
-            <li>
+            <li onclick="window.location.href='profile.html'">
                 <i class="fa-solid fa-user"></i>
                 Profile
             </li>
@@ -78,7 +77,7 @@
 
     </aside>
 
-    <!-- Main Content -->
+    <!-- Main -->
 
     <main class="main">
 
@@ -92,11 +91,14 @@
 
             <div class="profile">
 
-                <img src="https://i.pravatar.cc/50" alt="">
+                <img
+                    id="topProfileImage"
+                    src="profile.png"
+                    alt="Profile">
 
                 <div>
 
-                    <h4>Murali</h4>
+                    <h4 id="topUsername">Loading...</h4>
 
                     <p>Learner</p>
 
@@ -159,66 +161,67 @@
 
         </div>
 
-        <!-- Recommended Users -->
+        <!-- Recommended Matches -->
 
         <section class="matches">
 
-    <h2>Recommended Matches</h2>
+            <h2>Recommended Matches</h2>
 
-    <div class="match-box">
+            <div class="match-box">
 
-        <div class="user">
+                <div class="user">
 
-            <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Ruban" alt="Ruban">
+                    <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Ruban">
 
-            <h3>Ruban</h3>
+                    <h3>Ruban</h3>
 
-            <p>Full Stack Developer</p>
+                    <p>Full Stack Developer</p>
 
-            <button>Chat</button>
+                    <button>Chat</button>
 
-        </div>
+                </div>
 
-        <div class="user">
+                <div class="user">
 
-            <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Murali" alt="Murali">
+                    <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Murali">
 
-            <h3>Murali</h3>
+                    <h3>Murali</h3>
 
-            <p>Python Developer</p>
+                    <p>Python Developer</p>
 
-            <button>Chat</button>
+                    <button>Chat</button>
 
-        </div>
+                </div>
 
-        <div class="user">
+                <div class="user">
 
-            <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Aashik" alt="Aashik">
+                    <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Aashik">
 
-            <h3>Aashik</h3>
+                    <h3>Aashik</h3>
 
-            <p>UI/UX Designer</p>
+                    <p>UI/UX Designer</p>
 
-            <button>Chat</button>
+                    <button>Chat</button>
 
-        </div>
+                </div>
 
-        <div class="user">
+                <div class="user">
 
-            <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Priyan" alt="Priyan">
-            <h3>Priyan</h3>
+                    <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Priyan">
 
-            <p>Java Developer</p>
+                    <h3>Priyan</h3>
 
-            <button>Chat</button>
+                    <p>Java Developer</p>
 
-        </div>
+                    <button>Chat</button>
 
-    </div>
+                </div>
 
-</section>
+            </div>
 
-        <!-- Recent Activity -->
+        </section>
+
+        <!-- Notifications -->
 
         <section class="activity">
 

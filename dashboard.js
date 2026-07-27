@@ -5,21 +5,48 @@ if (!token) {
     window.location.href = "login.html";
 }
 
-// Welcome Message
-document.addEventListener("DOMContentLoaded", () => {
+// ==========================
+// Load User Profile
+// ==========================
+fetch("http://localhost:5000/api/auth/profile", {
+    method: "GET",
+    headers: {
+        Authorization: "Bearer " + token
+    }
+})
+.then(res => res.json())
+.then(data => {
 
-    const username = localStorage.getItem("username") || "Murali";
+    if (data.success) {
 
-    const name = document.querySelector(".profile h4");
-    if (name) {
-        name.innerText = username;
+        // Username
+        document.getElementById("topUsername").innerText = data.user.name;
+
+        // Profile Image
+        if (data.user.profile_image) {
+
+            document.getElementById("topProfileImage").src =
+                "http://localhost:5000/uploads/" + data.user.profile_image;
+
+        }
+
+    } else {
+
+        alert(data.message);
+
     }
 
-    console.log("Dashboard Loaded Successfully");
+})
+.catch(err => {
+
+    console.log(err);
 
 });
 
-// Search Function
+// ==========================
+// Search Users
+// ==========================
+
 const searchBox = document.querySelector(".topbar input");
 
 if (searchBox) {
@@ -50,7 +77,10 @@ if (searchBox) {
 
 }
 
+// ==========================
 // Chat Button
+// ==========================
+
 const buttons = document.querySelectorAll(".user button");
 
 buttons.forEach(btn => {
@@ -63,7 +93,10 @@ buttons.forEach(btn => {
 
 });
 
+// ==========================
 // Sidebar Active Effect
+// ==========================
+
 const menu = document.querySelectorAll(".sidebar li");
 
 menu.forEach(item => {
@@ -78,7 +111,10 @@ menu.forEach(item => {
 
 });
 
+// ==========================
 // Logout
+// ==========================
+
 const logout = document.querySelector(".sidebar li:last-child");
 
 if (logout) {
@@ -89,18 +125,21 @@ if (logout) {
 
         if (confirmLogout) {
 
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
 
-    window.location.href = "login.html";
+            window.location.href = "login.html";
 
-}
+        }
 
     });
 
 }
 
-// Notification Counter
+// ==========================
+// Notifications
+// ==========================
+
 const notifications = [
     "Rahul accepted your session request.",
     "Priya sent you a message.",
@@ -108,11 +147,3 @@ const notifications = [
 ];
 
 console.log("Notifications:", notifications);
-
-// Future Features
-// Dashboard Statistics
-// Real-time Chat
-// AI Skill Matching
-// Session Booking
-// Calendar Integration
-// Notifications API

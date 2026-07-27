@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 
 // Load .env file
 dotenv.config();
+
 const db = require("./db");
 
 const app = express();
@@ -17,9 +18,12 @@ app.use((req, res, next) => {
     next();
 });
 
+// Routes
 const authRoutes = require("./routes/authRoutes");
+const skillRoutes = require("./routes/skillRoutes");
 
 app.use("/api/auth", authRoutes);
+app.use("/api/skills", skillRoutes);
 
 // Test Route
 app.get("/", (req, res) => {

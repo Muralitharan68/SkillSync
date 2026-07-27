@@ -4,3 +4,28 @@ body{background:#f4f6fb}.container{display:flex;min-height:100vh}.sidebar{width:
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:20px;
 }.user{text-align:center}.user img{width:80px;height:80px;border-radius:50%}button{background:#5b4bdb;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer}.activity{margin-top:30px}.activity li{list-style:none;padding:10px 0;border-bottom:1px solid #eee}@media(max-width:900px){.container{flex-direction:column}.sidebar{width:100%}.cards,.match-box{grid-template-columns:1fr}.topbar{flex-direction:column;gap:15px}.topbar input{width:100%}}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+}
+
+.profile img{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:3px solid #6c63ff;
+    object-fit:cover;
+}
+
+.profile h4{
+    font-size:16px;
+    color:#333;
+}
+
+.profile p{
+    font-size:13px;
+    color:#777;
+}
