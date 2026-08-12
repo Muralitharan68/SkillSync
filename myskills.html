@@ -3,16 +3,27 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<title>My Skills</title>
+    <title>My Skills | SkillSync</title>
 
-<link rel="stylesheet" href="myskill.css">
 
-<link rel="stylesheet" 
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="myskill.css">
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
 </head>
 
@@ -23,266 +34,494 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 <div class="container">
 
 
-<!-- Sidebar -->
+    <!-- ================= SIDEBAR ================= -->
 
-<div class="sidebar">
+    <aside class="sidebar">
 
-
-<h2>SkillSync</h2>
-
-
-<ul>
-
-<li>
-<i class="fa fa-home"></i>
-Dashboard
-</li>
+        <h2>SkillSync</h2>
 
 
-<li>
-<i class="fa fa-user"></i>
-Profile
-</li>
+        <ul>
+
+            <!-- Dashboard -->
+            <li onclick="location.href='dashboard.html'">
+
+                <i class="fa-solid fa-house"></i>
+
+                Dashboard
+
+            </li>
 
 
-<li class="active">
-<i class="fa fa-code"></i>
-My Skills
-</li>
+            <!-- Profile -->
+            <li onclick="location.href='profile.html'">
+
+                <i class="fa-solid fa-user"></i>
+
+                Profile
+
+            </li>
 
 
-<li>
-<i class="fa fa-search"></i>
-Find Skills
-</li>
+            <!-- My Skills -->
+            <li class="active">
+
+                <i class="fa-solid fa-code"></i>
+
+                My Skills
+
+            </li>
 
 
-<li>
-<i class="fa fa-comments"></i>
-Chat
-</li>
+            <!-- Find Skills -->
+            <li onclick="location.href='findskills.html'">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                Find Skills
+
+            </li>
 
 
-<li>
-<i class="fa fa-calendar"></i>
-Sessions
-</li>
+            <!-- Matches -->
+            <li onclick="location.href='matches.html'">
+
+                <i class="fa-solid fa-users"></i>
+
+                Matches
+
+            </li>
 
 
-<li>
-<i class="fa fa-star"></i>
-Reviews
-</li>
+            <!-- Chat -->
+            <li onclick="location.href='chat.html'">
+
+                <i class="fa-solid fa-comments"></i>
+
+                Chat
+
+            </li>
 
 
-<li>
-<i class="fa fa-bell"></i>
-Notifications
-</li>
+            <!-- Sessions -->
+            <li onclick="location.href='sessions.html'">
+
+                <i class="fa-solid fa-calendar"></i>
+
+                Sessions
+
+            </li>
 
 
-<li>
-<i class="fa fa-gear"></i>
-Settings
-</li>
+            <!-- Reviews -->
+            <li onclick="location.href='reviews.html'">
+
+                <i class="fa-solid fa-star"></i>
+
+                Reviews
+
+            </li>
 
 
-</ul>
+            <!-- Notifications -->
+            <li onclick="location.href='notifications.html'">
+
+                <i class="fa-solid fa-bell"></i>
+
+                Notifications
+
+            </li>
+
+
+            <!-- Settings -->
+            <li onclick="location.href='settings.html'">
+
+                <i class="fa-solid fa-gear"></i>
+
+                Settings
+
+            </li>
+
+
+            <!-- Logout -->
+            <li onclick="logout()">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                Logout
+
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="content">
+
+
+        <!-- Page Header -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    My Skills
+                </h1>
+
+                <p>
+                    Manage the skills you can teach.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= ADD NEW SKILL ================= -->
+
+        <div class="card">
+
+            <h2>
+
+                <i class="fa-solid fa-plus"></i>
+
+                Add New Skill
+
+            </h2>
+
+
+            <div class="form-row">
+
+
+                <!-- Skill Name -->
+
+                <div class="form-group">
+
+                    <label for="skillName">
+
+                        Skill Name
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="skillName"
+                        placeholder="Enter skill name"
+                        autocomplete="off">
+
+                </div>
+
+
+
+                <!-- Skill Level -->
+
+                <div class="form-group">
+
+                    <label for="skillLevel">
+
+                        Skill Level
+
+                    </label>
+
+
+                    <select id="skillLevel">
+
+                        <option value="Beginner">
+
+                            Beginner
+
+                        </option>
+
+
+                        <option value="Intermediate">
+
+                            Intermediate
+
+                        </option>
+
+
+                        <option value="Advanced">
+
+                            Advanced
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Add Button -->
+
+            <button
+                id="addSkill"
+                class="add-btn">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Add Skill
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- ================= MY SKILLS ================= -->
+
+        <div class="card">
+
+
+            <div class="skills-title">
+
+
+                <h2>
+
+                    My Skills
+
+                </h2>
+
+
+                <span id="skillCount">
+
+                    0 Skills
+
+                </span>
+
+
+            </div>
+
+
+
+            <!-- Skills Table -->
+
+            <div class="table-container">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Skill
+                            </th>
+
+                            <th>
+                                Level
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody id="skillTable">
+
+                        <!-- Backend data will load here -->
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+
+            <!-- Empty State -->
+
+            <div
+                id="emptyState"
+                class="empty-state">
+
+
+                <i class="fa-solid fa-code"></i>
+
+
+                <h3>
+
+                    No Skills Added
+
+                </h3>
+
+
+                <p>
+
+                    Add your first skill above.
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
 
 
 </div>
 
 
 
+<!-- ================= EDIT SKILL MODAL ================= -->
 
+<div
+    id="editModal"
+    class="modal">
 
-<!-- Main Content -->
 
+    <div class="modal-box">
 
-<div class="main">
 
+        <!-- Close -->
 
+        <button
+            class="close-btn"
+            onclick="closeEditModal()">
 
-<!-- Top Bar -->
+            <i class="fa-solid fa-xmark"></i>
 
-<div class="topbar">
+        </button>
 
 
-<h1>My Skills</h1>
 
+        <h2>
 
+            Edit Skill
 
-<div class="profile-mini">
+        </h2>
 
 
-<img src="profile.jpg">
 
+        <!-- Hidden ID -->
 
-<div>
+        <input
+            type="hidden"
+            id="editSkillId">
 
-<h4>Ruban Kumar</h4>
 
-<p>Student</p>
 
+        <!-- Skill Name -->
 
-</div>
+        <div class="form-group">
 
+            <label>
 
-</div>
+                Skill Name
 
+            </label>
 
-</div>
 
+            <input
+                type="text"
+                id="editSkillName"
+                placeholder="Skill name">
 
+        </div>
 
 
 
-<!-- Skills Container -->
+        <!-- Skill Level -->
 
+        <div class="form-group">
 
-<div class="skills-box">
+            <label>
 
+                Skill Level
 
-<div class="box-header">
+            </label>
 
 
-<h2>Skills I Can Teach</h2>
+            <select id="editSkillLevel">
 
+                <option value="Beginner">
 
-<button id="editBtn">
+                    Beginner
 
-<i class="fa fa-pen"></i>
-Edit Skills
+                </option>
 
-</button>
 
+                <option value="Intermediate">
 
-</div>
+                    Intermediate
 
+                </option>
 
 
+                <option value="Advanced">
 
+                    Advanced
 
-<div id="skillList">
+                </option>
 
+            </select>
 
+        </div>
 
-<!-- Javascript la cards varum -->
 
 
-</div>
+        <!-- Save -->
 
-</div>
+        <button
+            class="save-btn"
+            onclick="updateSkill()">
 
+            <i class="fa-solid fa-check"></i>
 
+            Save Changes
 
+        </button>
 
 
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- Edit Modal -->
-
-
-<div class="modal" id="editModal">
-
-
-<div class="modal-content">
-
-
-<h2>Edit Skills</h2>
-
-
-
-<div class="input-box">
-
-<label>Skill 1</label>
-
-<input id="skill1Name">
-
-<input id="skill1Percent" type="number" placeholder="Percentage">
-
+    </div>
 
 </div>
 
 
 
-
-<div class="input-box">
-
-<label>Skill 2</label>
-
-<input id="skill2Name">
-
-<input id="skill2Percent" type="number" placeholder="Percentage">
-
-
-</div>
-
-
-
-
-
-<div class="input-box">
-
-<label>Skill 3</label>
-
-<input id="skill3Name">
-
-<input id="skill3Percent" type="number" placeholder="Percentage">
-
-
-</div>
-
-
-
-
-
-<div class="input-box">
-
-<label>Skill 4</label>
-
-<input id="skill4Name">
-
-<input id="skill4Percent" type="number" placeholder="Percentage">
-
-
-</div>
-
-
-
-
-
-<button id="updateBtn">
-Update
-</button>
-
-
-<button id="closeBtn">
-Cancel
-</button>
-
-
-
-
-</div>
-
-
-</div>
-
-
-
-
+<!-- ================= JAVASCRIPT ================= -->
 
 <script src="myskills.js"></script>
+
+
+<script>
+
+    // Logout
+
+    function logout() {
+
+        localStorage.removeItem("token");
+
+        localStorage.removeItem("viewUserId");
+
+        window.location.href = "login.html";
+
+    }
+
+</script>
 
 
 </body>

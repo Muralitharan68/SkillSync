@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SkillSync - Find Skills</title>
+
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="findskills.css">
+
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+
+    <!-- Google Font -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+
+        <h2>
+            SkillSync
+        </h2>
+
+
+        <ul>
+
+
+            <!-- Dashboard -->
+
+            <li onclick="location.href='dashboard.html'">
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>Dashboard</span>
+
+            </li>
+
+
+            <!-- Profile -->
+
+            <li onclick="location.href='profile.html'">
+
+                <i class="fa-solid fa-user"></i>
+
+                <span>Profile</span>
+
+            </li>
+
+
+            <!-- My Skills -->
+
+            <li onclick="location.href='myskills.html'">
+
+                <i class="fa-solid fa-code"></i>
+
+                <span>My Skills</span>
+
+            </li>
+
+
+            <!-- Find Skills -->
+
+            <li class="active">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <span>Find Skills</span>
+
+            </li>
+
+
+            <!-- Matches -->
+
+            <li onclick="location.href='matches.html'">
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>Matches</span>
+
+            </li>
+
+
+            <!-- Chat -->
+
+            <li onclick="location.href='chat.html'">
+
+                <i class="fa-solid fa-comments"></i>
+
+                <span>Chat</span>
+
+            </li>
+
+
+            <!-- Sessions -->
+
+            <li onclick="location.href='sessions.html'">
+
+                <i class="fa-solid fa-calendar"></i>
+
+                <span>Sessions</span>
+
+            </li>
+
+
+            <!-- Reviews -->
+
+            <li onclick="location.href='reviews.html'">
+
+                <i class="fa-solid fa-star"></i>
+
+                <span>Reviews</span>
+
+            </li>
+
+
+            <!-- Notifications -->
+
+            <li onclick="location.href='notifications.html'">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>Notifications</span>
+
+            </li>
+
+
+            <!-- Settings -->
+
+            <li onclick="location.href='settings.html'">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>Settings</span>
+
+            </li>
+
+
+            <!-- Logout -->
+
+            <li id="logoutBtn">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </li>
+
+
+        </ul>
+
+
+    </aside>
+
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="content">
+
+
+        <!-- ================= TOP ================= -->
+
+        <div class="top">
+
+
+            <div>
+
+                <h1>
+                    Find Skills
+                </h1>
+
+                <p>
+                    Discover users and their skills
+                </p>
+
+            </div>
+
+
+            <!-- Search -->
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+
+                <input
+                    type="text"
+                    id="search"
+                    placeholder="Search skills or users..."
+                    autocomplete="off">
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ================= USER CARDS ================= -->
+
+        <div
+            id="userContainer"
+            class="cards">
+
+
+            <!-- Backend users will load here -->
+
+
+        </div>
+
+
+
+        <!-- ================= EMPTY STATE ================= -->
+
+        <div
+            id="emptyState"
+            class="empty">
+
+
+            <div class="empty-icon">
+
+                <i class="fa-solid fa-user-slash"></i>
+
+            </div>
+
+
+            <h2>
+                No Users Found
+            </h2>
+
+
+            <p>
+                No matching skills available.
+            </p>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="findskills.js"></script>
+
+
+</body>
+
+</html>

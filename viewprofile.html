@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Profile | SkillSync</title>
+
+    <link rel="stylesheet" href="viewprofile.css">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="profile-card">
+
+        <button class="back-btn" onclick="history.back()">
+            <i class="fa-solid fa-arrow-left"></i> Back
+        </button>
+
+        <div class="profile-header">
+
+            <div class="avatar">
+                <i class="fa-solid fa-user"></i>
+            </div>
+
+            <h2 id="name">Loading...</h2>
+
+            <p id="email"></p>
+
+        </div>
+
+        <div class="info">
+
+            <div class="box">
+                <h4>College</h4>
+                <p id="college">Loading...</p>
+            </div>
+
+            <div class="box">
+                <h4>Department</h4>
+                <p id="department">Loading...</p>
+            </div>
+
+        </div>
+
+        <div class="about">
+
+            <h3>About</h3>
+
+            <p id="about">Loading...</p>
+
+        </div>
+
+        <div class="skills">
+
+            <h3>Skills</h3>
+
+            <div id="skillsContainer">
+
+            </div>
+
+        </div>
+
+        <button class="chat-btn">
+            <i class="fa-solid fa-comments"></i>
+            Chat
+        </button>
+
+    </div>
+
+</div>
+
+<script src="viewprofile.js"></script>
+
+</body>
+</html>

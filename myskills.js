@@ -1,186 +1,579 @@
-// ================================
-// My Skills Edit JavaScript
-// ================================
+const API = "http://localhost:5000/api/skills";
+
+const token = localStorage.getItem("token");
 
 
-// Default Skills
+// ================= LOGIN CHECK =================
 
-let skills = JSON.parse(localStorage.getItem("mySkills")) || [
+if (!token) {
 
-    {
-        name: "HTML",
-        percent: 90
-    },
+    alert("Please Login First");
 
-    {
-        name: "CSS",
-        percent: 85
-    },
-
-    {
-        name: "JavaScript",
-        percent: 75
-    },
-
-    {
-        name: "Figma UI/UX",
-        percent: 90
-    }
-
-];
-
-
-
-// Elements
-
-const skillList = document.getElementById("skillList");
-
-const editBtn = document.getElementById("editBtn");
-
-const modal = document.getElementById("editModal");
-
-const updateBtn = document.getElementById("updateBtn");
-
-const closeBtn = document.getElementById("closeBtn");
-
-
-
-
-// Show Skills
-
-function showSkills(){
-
-    skillList.innerHTML = "";
-
-    skills.forEach((skill)=>{
-
-        skillList.innerHTML += `
-
-        <div class="skill-card">
-
-            <div class="skill-left">
-
-                <div class="skill-icon">
-                    <i class="fa fa-code"></i>
-                </div>
-
-
-                <div class="skill-info">
-
-                    <h3>${skill.name}</h3>
-
-                    <p>${skill.percent}%</p>
-
-                    <div class="progress">
-                        <div style="width:${skill.percent}%"></div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        `;
-
-    });
+    window.location.href = "login.html";
 
 }
 
 
+// ================= ELEMENTS =================
 
-// Edit Button
+const skillName =
+    document.getElementById("skillName");
 
-editBtn.addEventListener("click",function(){
+const skillLevel =
+    document.getElementById("skillLevel");
 
-    modal.style.display="flex";
+const addSkillBtn =
+    document.getElementById("addSkill");
 
+const skillTable =
+    document.getElementById("skillTable");
 
-    document.getElementById("skill1Name").value = skills[0].name;
-    document.getElementById("skill1Percent").value = skills[0].percent;
+const emptyState =
+    document.getElementById("emptyState");
 
-
-    document.getElementById("skill2Name").value = skills[1].name;
-    document.getElementById("skill2Percent").value = skills[1].percent;
-
-
-    document.getElementById("skill3Name").value = skills[2].name;
-    document.getElementById("skill3Percent").value = skills[2].percent;
-
-
-    document.getElementById("skill4Name").value = skills[3].name;
-    document.getElementById("skill4Percent").value = skills[3].percent;
+const skillCount =
+    document.getElementById("skillCount");
 
 
-});
+// ================= NAVIGATION =================
+
+function goTo(page) {
+
+    window.location.href = page;
+
+}
 
 
+// ================= LOGOUT =================
+
+function logout() {
+
+    localStorage.removeItem("token");
+
+    localStorage.removeItem("viewUserId");
+
+    window.location.href = "login.html";
+
+}
 
 
+// ================= LOAD SKILLS =================
 
-// Update Button
+async function loadSkills() {
 
-updateBtn.addEventListener("click",function(){
+    try {
 
+        const res = await fetch(API, {
 
-    skills = [
+            method: "GET",
 
-        {
-            name: document.getElementById("skill1Name").value,
-            percent: document.getElementById("skill1Percent").value
-        },
+            headers: {
 
+                Authorization:
+                    "Bearer " + token
 
-        {
-            name: document.getElementById("skill2Name").value,
-            percent: document.getElementById("skill2Percent").value
-        },
+            }
 
-
-        {
-            name: document.getElementById("skill3Name").value,
-            percent: document.getElementById("skill3Percent").value
-        },
+        });
 
 
-        {
-            name: document.getElementById("skill4Name").value,
-            percent: document.getElementById("skill4Percent").value
+        const data = await res.json();
+
+        console.log("Skills:", data);
+
+
+        skillTable.innerHTML = "";
+
+
+        if (
+            !data.success ||
+            !data.skills ||
+            data.skills.length === 0
+        ) {
+
+            emptyState.style.display = "block";
+
+            skillCount.innerText = "0 Skills";
+
+            return;
+
         }
 
-    ];
+
+        emptyState.style.display = "none";
 
 
+        skillCount.innerText =
+            data.skills.length +
+            (
+                data.skills.length === 1
+                    ? " Skill"
+                    : " Skills"
+            );
 
-    localStorage.setItem(
-        "mySkills",
-        JSON.stringify(skills)
+
+        data.skills.forEach(skill => {
+
+            const row =
+                document.createElement("tr");
+
+
+            const level =
+                skill.skill_level || "Beginner";
+
+
+            const levelClass =
+                level.toLowerCase();
+
+
+            row.innerHTML = `
+
+                <td>
+                    <strong>
+                        ${skill.skill_name}
+                    </strong>
+                </td>
+
+                <td>
+
+                    <span class="level ${levelClass}">
+                        ${level}
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="edit"
+                        onclick="
+                            openEditModal(
+                                ${skill.id},
+                                '${escapeText(skill.skill_name)}',
+                                '${escapeText(level)}'
+                            )
+                        ">
+
+                        <i class="fa-solid fa-pen"></i>
+
+                    </button>
+
+
+                    <button
+                        class="delete"
+                        onclick="
+                            deleteSkill(${skill.id})
+                        ">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            skillTable.appendChild(row);
+
+        });
+
+
+    } catch (error) {
+
+        console.log(
+            "Load Skills Error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to Backend"
+        );
+
+    }
+
+}
+
+
+// ================= ESCAPE TEXT =================
+
+function escapeText(text) {
+
+    return String(text)
+        .replace(/'/g, "\\'");
+
+}
+
+
+// ================= ADD SKILL =================
+
+addSkillBtn.addEventListener(
+    "click",
+    addSkill
+);
+
+
+async function addSkill() {
+
+    const name =
+        skillName.value.trim();
+
+
+    const level =
+        skillLevel.value;
+
+
+    if (!name) {
+
+        alert(
+            "Please enter skill name"
+        );
+
+        skillName.focus();
+
+        return;
+
+    }
+
+
+    try {
+
+        const res = await fetch(
+            API,
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json",
+
+                    Authorization:
+                        "Bearer " + token
+
+                },
+
+                body: JSON.stringify({
+
+                    skill_name: name,
+
+                    skill_level: level
+
+                })
+
+            }
+        );
+
+
+        const data =
+            await res.json();
+
+
+        console.log(
+            "Add Skill:",
+            data
+        );
+
+
+        if (!data.success) {
+
+            alert(
+                data.message ||
+                "Unable to add skill"
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            "Skill Added Successfully ✅"
+        );
+
+
+        skillName.value = "";
+
+        skillLevel.value =
+            "Beginner";
+
+
+        loadSkills();
+
+
+    } catch (error) {
+
+        console.log(
+            "Add Skill Error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to Backend"
+        );
+
+    }
+
+}
+
+
+// ================= DELETE SKILL =================
+
+async function deleteSkill(id) {
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete this skill?"
+        );
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const res =
+            await fetch(
+                API + "/" + id,
+                {
+
+                    method: "DELETE",
+
+                    headers: {
+
+                        Authorization:
+                            "Bearer " + token
+
+                    }
+
+                }
+            );
+
+
+        const data =
+            await res.json();
+
+
+        console.log(
+            "Delete Skill:",
+            data
+        );
+
+
+        if (!data.success) {
+
+            alert(
+                data.message ||
+                "Unable to delete skill"
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            "Skill Deleted Successfully ✅"
+        );
+
+
+        loadSkills();
+
+
+    } catch (error) {
+
+        console.log(
+            "Delete Skill Error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to Backend"
+        );
+
+    }
+
+}
+
+
+// ================= EDIT MODAL =================
+
+function openEditModal(
+    id,
+    name,
+    level
+) {
+
+    document.getElementById(
+        "editSkillId"
+    ).value = id;
+
+
+    document.getElementById(
+        "editSkillName"
+    ).value = name;
+
+
+    document.getElementById(
+        "editSkillLevel"
+    ).value = level;
+
+
+    document.getElementById(
+        "editModal"
+    ).classList.add("show");
+
+}
+
+
+// ================= CLOSE MODAL =================
+
+function closeEditModal() {
+
+    document.getElementById(
+        "editModal"
+    ).classList.remove("show");
+
+}
+
+
+// ================= UPDATE SKILL =================
+
+async function updateSkill() {
+
+    const id =
+        document.getElementById(
+            "editSkillId"
+        ).value;
+
+
+    const name =
+        document.getElementById(
+            "editSkillName"
+        ).value.trim();
+
+
+    const level =
+        document.getElementById(
+            "editSkillLevel"
+        ).value;
+
+
+    if (!name) {
+
+        alert(
+            "Please enter skill name"
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const res =
+            await fetch(
+                API + "/" + id,
+                {
+
+                    method: "PUT",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        Authorization:
+                            "Bearer " + token
+
+                    },
+
+                    body: JSON.stringify({
+
+                        skill_name: name,
+
+                        skill_level: level
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await res.json();
+
+
+        console.log(
+            "Update Skill:",
+            data
+        );
+
+
+        if (!data.success) {
+
+            alert(
+                data.message ||
+                "Unable to update skill"
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            "Skill Updated Successfully ✅"
+        );
+
+
+        closeEditModal();
+
+        loadSkills();
+
+
+    } catch (error) {
+
+        console.log(
+            "Update Skill Error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to Backend"
+        );
+
+    }
+
+}
+
+
+// ================= CLOSE MODAL ON OUTSIDE CLICK =================
+
+document
+    .getElementById("editModal")
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === this
+            ) {
+
+                closeEditModal();
+
+            }
+
+        }
     );
 
 
-    showSkills();
+// ================= INITIAL LOAD =================
 
-
-    modal.style.display="none";
-
-
-});
-
-
-
-
-
-// Close
-
-closeBtn.addEventListener("click",function(){
-
-    modal.style.display="none";
-
-});
-
-
-
-
-// Load
-
-showSkills();
+loadSkills();

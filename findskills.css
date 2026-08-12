@@ -1,0 +1,459 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: #f4f6fb;
+}
+
+/* ================= CONTAINER ================= */
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    width: 250px;
+
+    background: linear-gradient(180deg, #5b4bdb, #4536c7);
+
+    color: white;
+
+    padding: 25px;
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    overflow-y: auto;
+
+    z-index: 1000;
+}
+
+.sidebar h2 {
+    text-align: center;
+
+    margin-bottom: 35px;
+
+    font-size: 28px;
+
+    letter-spacing: 1px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    padding: 14px 16px;
+
+    margin: 10px 0;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.sidebar li:hover {
+    background: rgba(255, 255, 255, 0.15);
+
+    transform: translateX(5px);
+}
+
+.sidebar .active {
+    background: white;
+
+    color: #5b4bdb;
+
+    font-weight: 600;
+}
+
+.sidebar i {
+    width: 20px;
+
+    text-align: center;
+}
+
+/* ================= MAIN CONTENT ================= */
+
+.content {
+    margin-left: 250px;
+
+    width: calc(100% - 250px);
+
+    padding: 40px;
+}
+
+/* ================= TOP ================= */
+
+.top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 35px;
+
+    gap: 20px;
+}
+
+.top h1 {
+    color: #333;
+
+    font-size: 34px;
+
+    font-weight: 600;
+}
+
+.top input {
+    width: 320px;
+
+    padding: 14px 18px;
+
+    border: none;
+
+    outline: none;
+
+    border-radius: 12px;
+
+    background: white;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+
+    font-size: 15px;
+}
+
+.top input:focus {
+    box-shadow: 0 5px 18px rgba(91, 75, 219, 0.2);
+}
+
+/* ================= CARDS ================= */
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(320px, 1fr));
+
+    gap: 25px;
+}
+
+/* ================= USER CARD ================= */
+
+.user-card {
+    background:
+        linear-gradient(135deg, #ffffff, #f8f9ff);
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.08);
+
+    transition: 0.35s;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.user-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    height: 5px;
+
+    background:
+        linear-gradient(90deg, #5b4bdb, #7f73ff);
+}
+
+.user-card:hover {
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 20px 40px rgba(91, 75, 219, 0.18);
+}
+
+/* ================= AVATAR ================= */
+
+.avatar {
+    width: 70px;
+
+    height: 70px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(135deg, #5b4bdb, #7f73ff);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: white;
+
+    font-size: 28px;
+
+    margin-bottom: 18px;
+}
+
+.user-card h3 {
+    color: #333;
+
+    margin-bottom: 10px;
+
+    font-size: 22px;
+}
+
+/* ================= USER INFO ================= */
+
+.info {
+    margin: 8px 0;
+
+    color: #666;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 14px;
+}
+
+.info i {
+    color: #5b4bdb;
+
+    width: 18px;
+}
+
+/* ================= SKILLS ================= */
+
+.user-card hr {
+    border: none;
+
+    border-top: 1px solid #eee;
+
+    margin: 20px 0;
+}
+
+.user-card h4 {
+    color: #444;
+
+    margin-bottom: 8px;
+}
+
+.skill {
+    margin-top: 12px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.skill-name {
+    font-weight: 600;
+
+    color: #333;
+
+    font-size: 15px;
+}
+
+.level {
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    color: white;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+/* ================= SKILL LEVELS ================= */
+
+.beginner {
+    background: #ff9800;
+}
+
+.intermediate {
+    background: #2196f3;
+}
+
+.advanced {
+    background: #2ecc71;
+}
+
+/* ================= BUTTONS ================= */
+
+.actions {
+    display: flex;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+.actions button {
+    flex: 1;
+
+    border: none;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+.actions button:hover {
+    transform: translateY(-2px);
+
+    opacity: 0.9;
+}
+
+.view-btn {
+    background: #5b4bdb;
+
+    color: white;
+}
+
+.chat-btn {
+    background: #2ecc71;
+
+    color: white;
+}
+
+/* ================= EMPTY STATE ================= */
+
+.empty {
+    display: none;
+
+    text-align: center;
+
+    margin-top: 100px;
+}
+
+.empty i {
+    font-size: 70px;
+
+    color: #5b4bdb;
+
+    margin-bottom: 20px;
+}
+
+.empty h2 {
+    color: #333;
+
+    margin-bottom: 10px;
+}
+
+.empty p {
+    color: #777;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+
+    .sidebar {
+        width: 220px;
+    }
+
+    .content {
+        margin-left: 220px;
+
+        width: calc(100% - 220px);
+    }
+}
+
+@media (max-width: 768px) {
+
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: relative;
+
+        width: 100%;
+
+        min-height: auto;
+    }
+
+    .content {
+        margin-left: 0;
+
+        width: 100%;
+
+        padding: 25px;
+    }
+
+    .top {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .top input {
+        width: 100%;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .content {
+        padding: 18px;
+    }
+
+    .user-card {
+        padding: 20px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+}

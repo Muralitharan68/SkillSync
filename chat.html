@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SkillSync - Chat</title>
+
+    <link rel="stylesheet" href="chat.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- ================= CHAT HEADER ================= -->
+
+        <div class="header">
+
+            <button class="back-btn" onclick="history.back()">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+
+            <div class="user-icon">
+                <i class="fa-solid fa-user"></i>
+            </div>
+
+            <div class="user-details">
+
+                <h3 id="receiverName">
+                    Loading...
+                </h3>
+
+                <p>
+                    SkillSync User
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= MESSAGES ================= -->
+
+        <div id="messages" class="messages">
+
+            <!-- Messages will load here -->
+
+        </div>
+
+
+        <!-- ================= MESSAGE INPUT ================= -->
+
+        <div class="bottom">
+
+            <input
+                type="text"
+                id="message"
+                placeholder="Type a message..."
+                autocomplete="off"
+            >
+
+            <button onclick="sendMessage()">
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+                Send
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="chat.js"></script>
+
+</body>
+
+</html>

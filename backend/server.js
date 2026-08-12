@@ -21,9 +21,15 @@ app.use((req, res, next) => {
 // Routes
 const authRoutes = require("./routes/authRoutes");
 const skillRoutes = require("./routes/skillRoutes");
+const findSkillRoutes = require("./routes/findSkillRoutes");
+const userRoutes = require("./routes/userRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/skills", skillRoutes);
+app.use("/api/findskills", findSkillRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/chat", chatRoutes);
 
 // Test Route
 app.get("/", (req, res) => {

@@ -1,0 +1,339 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Poppins", Arial, sans-serif;
+    background: #f3f4f8;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===============================
+   CHAT CONTAINER
+================================ */
+
+.container {
+    width: 500px;
+    height: 700px;
+
+    background: white;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ===============================
+   HEADER
+================================ */
+
+.header {
+    height: 75px;
+
+    background: #5b4bdb;
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 18px;
+
+    gap: 12px;
+
+    flex-shrink: 0;
+}
+
+
+.back-btn {
+    width: 38px;
+    height: 38px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.15);
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+
+.user-icon {
+    width: 43px;
+    height: 43px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    color: #5b4bdb;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 19px;
+}
+
+
+.user-details {
+    line-height: 1.2;
+}
+
+
+.user-details h3 {
+    margin: 0;
+
+    font-size: 17px;
+}
+
+
+.user-details p {
+    margin: 4px 0 0;
+
+    font-size: 11px;
+
+    opacity: 0.8;
+}
+
+
+/* ===============================
+   MESSAGE AREA
+================================ */
+
+.messages {
+    flex: 1;
+
+    padding: 20px;
+
+    overflow-y: auto;
+
+    background: #f8f8fb;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ===============================
+   MESSAGE ROW
+================================ */
+
+.message-row {
+    width: 100%;
+
+    display: flex;
+
+    margin-bottom: 12px;
+}
+
+
+/* ===============================
+   MY MESSAGE → RIGHT
+================================ */
+
+.message-row.sent {
+    justify-content: flex-end;
+}
+
+
+/* ===============================
+   OTHER MESSAGE → LEFT
+================================ */
+
+.message-row.received {
+    justify-content: flex-start;
+}
+
+
+/* ===============================
+   MESSAGE BUBBLE
+================================ */
+
+.message-bubble {
+    max-width: 70%;
+
+    padding: 9px 13px 6px;
+
+    border-radius: 15px;
+
+    word-wrap: break-word;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* My message */
+
+.message-row.sent .message-bubble {
+    background: #5b4bdb;
+
+    color: white;
+
+    border-bottom-right-radius: 3px;
+}
+
+
+/* Receiver message */
+
+.message-row.received .message-bubble {
+    background: #e5e5ea;
+
+    color: #222;
+
+    border-bottom-left-radius: 3px;
+}
+
+
+/* ===============================
+   MESSAGE TEXT
+================================ */
+
+.message-text {
+    font-size: 14px;
+
+    line-height: 1.4;
+}
+
+
+/* ===============================
+   MESSAGE TIME
+================================ */
+
+.message-time {
+    font-size: 10px;
+
+    margin-top: 4px;
+
+    text-align: right;
+
+    opacity: 0.7;
+}
+
+
+/* ===============================
+   INPUT AREA
+================================ */
+
+.bottom {
+    display: flex;
+
+    gap: 10px;
+
+    padding: 14px;
+
+    border-top: 1px solid #eee;
+
+    background: white;
+
+    flex-shrink: 0;
+}
+
+
+.bottom input {
+    flex: 1;
+
+    height: 45px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 23px;
+
+    padding: 0 17px;
+
+    outline: none;
+
+    font-size: 14px;
+}
+
+
+.bottom input:focus {
+    border-color: #5b4bdb;
+}
+
+
+.bottom button {
+    height: 45px;
+
+    border: none;
+
+    border-radius: 23px;
+
+    padding: 0 18px;
+
+    background: #5b4bdb;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 13px;
+}
+
+
+.bottom button:hover {
+    background: #4939c5;
+}
+
+
+/* ===============================
+   SCROLLBAR
+================================ */
+
+.messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+.messages::-webkit-scrollbar-thumb {
+    background: #ccc;
+
+    border-radius: 10px;
+}
+
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+    body {
+        align-items: stretch;
+    }
+
+    .container {
+        width: 100%;
+
+        height: 100vh;
+
+        border-radius: 0;
+    }
+
+    .message-bubble {
+        max-width: 80%;
+    }
+
+}

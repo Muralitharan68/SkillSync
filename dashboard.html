@@ -1,249 +1,670 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillSync Dashboard</title>
+
+    <title>SkillSync - Dashboard</title>
 
     <link rel="stylesheet" href="dashboard.css">
-    
+
     <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
+
 <body>
 
-<div class="container">
 
-    <!-- Sidebar -->
+    <!-- ================= SIDEBAR ================= -->
+
     <aside class="sidebar">
 
         <h2>SkillSync</h2>
 
         <ul>
 
-            <li class="active">
+
+            <!-- Dashboard -->
+
+            <li
+                class="active"
+                onclick="goTo('dashboard.html')">
+
                 <i class="fa-solid fa-house"></i>
+
                 Dashboard
+
             </li>
 
-            <li onclick="window.location.href='profile.html'">
+
+
+            <!-- Profile -->
+
+            <li
+                onclick="goTo('profile.html')">
+
                 <i class="fa-solid fa-user"></i>
+
                 Profile
+
             </li>
 
-            <li>
+
+
+            <!-- My Skills -->
+
+            <li
+                onclick="goTo('myskills.html')">
+
                 <i class="fa-solid fa-code"></i>
+
                 My Skills
+
             </li>
 
-            <li>
+
+
+            <!-- Find Skills -->
+
+            <li
+                onclick="goTo('findskills.html')">
+
                 <i class="fa-solid fa-magnifying-glass"></i>
+
                 Find Skills
+
             </li>
 
-            <li>
+
+
+            <!-- Matches -->
+
+            <li
+                onclick="goTo('matches.html')">
+
                 <i class="fa-solid fa-users"></i>
+
                 Matches
+
             </li>
 
-            <li>
+
+
+            <!-- Chat -->
+
+            <li
+                onclick="goTo('chat.html')">
+
                 <i class="fa-solid fa-comments"></i>
+
                 Chat
+
             </li>
 
-            <li>
+
+
+            <!-- Sessions -->
+
+            <li
+                onclick="goTo('sessions.html')">
+
                 <i class="fa-solid fa-calendar"></i>
+
                 Sessions
+
             </li>
 
-            <li>
+
+
+            <!-- Reviews -->
+
+            <li
+                onclick="goTo('reviews.html')">
+
                 <i class="fa-solid fa-star"></i>
+
                 Reviews
+
             </li>
 
-            <li>
+
+
+            <!-- Notifications -->
+
+            <li
+                onclick="goTo('notifications.html')">
+
                 <i class="fa-solid fa-bell"></i>
+
                 Notifications
+
             </li>
 
-            <li>
+
+
+            <!-- Logout -->
+
+            <li
+                onclick="logout()">
+
                 <i class="fa-solid fa-right-from-bracket"></i>
+
                 Logout
+
             </li>
+
 
         </ul>
 
     </aside>
 
-    <!-- Main -->
+
+
+    <!-- ================= MAIN ================= -->
 
     <main class="main">
 
-        <!-- Top Bar -->
+
+        <!-- ================= TOP BAR ================= -->
 
         <div class="topbar">
 
-            <input
-            type="text"
-            placeholder="Search skills, users...">
 
-            <div class="profile">
+            <input
+                type="text"
+                placeholder="Search skills, users...">
+
+
+
+            <div
+                class="profile"
+                onclick="goTo('profile.html')">
+
 
                 <img
                     id="topProfileImage"
                     src="profile.png"
                     alt="Profile">
 
+
+
                 <div>
 
-                    <h4 id="topUsername">Loading...</h4>
+                    <h4 id="topUsername">
+                        Loading...
+                    </h4>
 
-                    <p>Learner</p>
+                    <p>
+                        Learner
+                    </p>
 
                 </div>
 
+
             </div>
+
 
         </div>
 
-        <!-- Welcome -->
+
+
+        <!-- ================= WELCOME ================= -->
 
         <section class="welcome">
 
+
             <div>
 
-                <h1>Welcome Back 👋</h1>
+                <h1>
+                    Welcome Back 👋
+                </h1>
+
 
                 <p>
+
                     Learn new skills, share your knowledge,
                     and grow together.
+
                 </p>
 
             </div>
 
+
         </section>
 
-        <!-- Cards -->
+
+
+        <!-- ================= DASHBOARD CARDS ================= -->
 
         <div class="cards">
 
-            <div class="card">
 
-                <h3>Skills I Can Teach</h3>
-
-                <h1>3</h1>
-
-                <p>Java, Python, HTML</p>
-
-            </div>
+            <!-- Skills I Can Teach -->
 
             <div class="card">
 
-                <h3>Skills I Want To Learn</h3>
+                <h3>
+                    Skills I Can Teach
+                </h3>
 
-                <h1>2</h1>
 
-                <p>React, Node.js</p>
+                <h1>
+                    3
+                </h1>
+
+
+                <p>
+                    Java, Python, HTML
+                </p>
 
             </div>
+
+
+
+            <!-- Skills I Want To Learn -->
 
             <div class="card">
 
-                <h3>Upcoming Sessions</h3>
+                <h3>
+                    Skills I Want To Learn
+                </h3>
 
-                <h1>4</h1>
 
-                <p>This Week</p>
+                <h1>
+                    2
+                </h1>
+
+
+                <p>
+                    React, Node.js
+                </p>
 
             </div>
+
+
+
+            <!-- Upcoming Sessions -->
+
+            <div class="card">
+
+                <h3>
+                    Upcoming Sessions
+                </h3>
+
+
+                <h1>
+                    4
+                </h1>
+
+
+                <p>
+                    This Week
+                </p>
+
+            </div>
+
 
         </div>
 
-        <!-- Recommended Matches -->
+
+
+        <!-- ================= RECOMMENDED MATCHES ================= -->
 
         <section class="matches">
 
-            <h2>Recommended Matches</h2>
+
+            <h2>
+                Recommended Matches
+            </h2>
+
+
 
             <div class="match-box">
 
-                <div class="user">
 
-                    <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Ruban">
-
-                    <h3>Ruban</h3>
-
-                    <p>Full Stack Developer</p>
-
-                    <button>Chat</button>
-
-                </div>
+                <!-- Ruban -->
 
                 <div class="user">
 
-                    <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Murali">
 
-                    <h3>Murali</h3>
+                    <img
+                        src="https://api.dicebear.com/9.x/notionists/svg?seed=Ruban"
+                        alt="Ruban">
 
-                    <p>Python Developer</p>
 
-                    <button>Chat</button>
+
+                    <h3>
+                        Ruban
+                    </h3>
+
+
+                    <p>
+                        Full Stack Developer
+                    </p>
+
+
+                    <button
+                        onclick="openChat(2)">
+
+                        <i class="fa-solid fa-comments"></i>
+
+                        Chat
+
+                    </button>
+
 
                 </div>
+
+
+
+                <!-- Murali -->
 
                 <div class="user">
 
-                    <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Aashik">
 
-                    <h3>Aashik</h3>
+                    <img
+                        src="https://api.dicebear.com/9.x/notionists/svg?seed=Murali"
+                        alt="Murali">
 
-                    <p>UI/UX Designer</p>
 
-                    <button>Chat</button>
+
+                    <h3>
+                        Murali
+                    </h3>
+
+
+                    <p>
+                        Python Developer
+                    </p>
+
+
+                    <button
+                        onclick="openChat(5)">
+
+                        <i class="fa-solid fa-comments"></i>
+
+                        Chat
+
+                    </button>
+
 
                 </div>
+
+
+
+                <!-- Aashik -->
 
                 <div class="user">
 
-                    <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Priyan">
 
-                    <h3>Priyan</h3>
+                    <img
+                        src="https://api.dicebear.com/9.x/notionists/svg?seed=Aashik"
+                        alt="Aashik">
 
-                    <p>Java Developer</p>
 
-                    <button>Chat</button>
+
+                    <h3>
+                        Aashik
+                    </h3>
+
+
+                    <p>
+                        UI/UX Designer
+                    </p>
+
+
+                    <button
+                        onclick="openChat(6)">
+
+                        <i class="fa-solid fa-comments"></i>
+
+                        Chat
+
+                    </button>
+
 
                 </div>
+
+
+
+                <!-- Priyan -->
+
+                <div class="user">
+
+
+                    <img
+                        src="https://api.dicebear.com/9.x/notionists/svg?seed=Priyan"
+                        alt="Priyan">
+
+
+
+                    <h3>
+                        Priyan
+                    </h3>
+
+
+                    <p>
+                        Java Developer
+                    </p>
+
+
+                    <button
+                        onclick="openChat(7)">
+
+                        <i class="fa-solid fa-comments"></i>
+
+                        Chat
+
+                    </button>
+
+
+                </div>
+
 
             </div>
 
+
         </section>
 
-        <!-- Notifications -->
+
+
+        <!-- ================= NOTIFICATIONS ================= -->
 
         <section class="activity">
 
-            <h2>Recent Notifications</h2>
+
+            <h2>
+                Recent Notifications
+            </h2>
+
 
             <ul>
 
-                <li>✅ Rahul accepted your session request.</li>
 
-                <li>💬 Priya sent you a message.</li>
+                <li>
+                    ✅ Rahul accepted your session request.
+                </li>
 
-                <li>⭐ You received a new review.</li>
+
+                <li>
+                    💬 Priya sent you a message.
+                </li>
+
+
+                <li>
+                    ⭐ You received a new review.
+                </li>
+
 
             </ul>
 
+
         </section>
+
 
     </main>
 
-</div>
 
-<script src="dashboard.js"></script>
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+
+        // ===============================
+        // PAGE NAVIGATION
+        // ===============================
+
+        function goTo(page) {
+
+            window.location.href = page;
+
+        }
+
+
+
+        // ===============================
+        // OPEN CHAT
+        // ===============================
+
+        function openChat(userId) {
+
+            // Save receiver ID
+            localStorage.setItem(
+                "viewUserId",
+                userId
+            );
+
+
+            // Open chat
+            window.location.href =
+                "chat.html";
+
+        }
+
+
+
+        // ===============================
+        // LOGOUT
+        // ===============================
+
+        function logout() {
+
+            localStorage.removeItem("token");
+
+            localStorage.removeItem("viewUserId");
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+
+        // ===============================
+        // LOAD USER NAME
+        // ===============================
+
+        async function loadUserName() {
+
+            const token =
+                localStorage.getItem("token");
+
+
+            if (!token) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            try {
+
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/auth/profile",
+                        {
+
+                            headers: {
+
+                                Authorization:
+                                    "Bearer " + token
+
+                            }
+
+                        }
+                    );
+
+
+
+                const data =
+                    await response.json();
+
+
+
+                console.log(
+                    "Profile Data:",
+                    data
+                );
+
+
+
+                if (
+                    data.success &&
+                    data.user
+                ) {
+
+                    document
+                        .getElementById(
+                            "topUsername"
+                        )
+                        .innerText =
+                        data.user.name;
+
+                }
+
+
+            }
+            catch (error) {
+
+                console.log(
+                    "Profile Load Error:",
+                    error
+                );
+
+
+                document
+                    .getElementById(
+                        "topUsername"
+                    )
+                    .innerText =
+                    "User";
+
+            }
+
+        }
+
+
+
+        // ===============================
+        // INITIAL LOAD
+        // ===============================
+
+        loadUserName();
+
+
+    </script>
+
 
 </body>
+
 </html>
