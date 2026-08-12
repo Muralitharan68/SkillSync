@@ -1,30 +1,15 @@
-const API = "http://localhost:5000/api/chat/";
+const CHAT_API = "http://localhost:5000/api/chat/";
 const USER_API = "http://localhost:5000/api/users/";
 
 const token = localStorage.getItem("token");
 
 if (!token) {
+
     alert("Please Login First");
+
     window.location.href = "login.html";
+
     throw new Error("Token not found");
-}
-
-
-// ===============================
-// RECEIVER ID
-// ===============================
-
-const receiverId = Number(
-    localStorage.getItem("viewUserId")
-);
-
-if (!receiverId || isNaN(receiverId)) {
-
-    alert("Receiver User ID Not Found");
-
-    window.location.href = "findskills.html";
-
-    throw new Error("Invalid Receiver ID");
 }
 
 
@@ -32,21 +17,50 @@ if (!receiverId || isNaN(receiverId)) {
 // ELEMENTS
 // ===============================
 
+const chatPage = document.querySelector(".chat-page");
+
+const chatList =
+    document.getElementById("chatList");
+
+const emptyChatList =
+    document.getElementById("emptyChatList");
+
+const noChatSelected =
+    document.getElementById("noChatSelected");
+
+const activeChat =
+    document.getElementById("activeChat");
+
+const receiverName =
+    document.getElementById("receiverName");
+
+const receiverStatus =
+    document.getElementById("receiverStatus");
+
 const messagesBox =
     document.getElementById("messages");
 
 const messageInput =
     document.getElementById("message");
 
-const receiverName =
-    document.getElementById("receiverName");
+const chatSearch =
+    document.getElementById("chatSearch");
 
 
 // ===============================
-// GET MY USER ID
+// CURRENT USER
 // ===============================
 
-let myId;
+let myId = null;
+
+let currentReceiverId = null;
+
+let lastMessageSignature = "";
+
+
+// ===============================
+// GET JWT USER ID
+// ===============================
 
 try {
 
@@ -56,105 +70,363 @@ try {
 
     myId = Number(payload.id);
 
-    console.log("My ID:", myId);
-    console.log("Receiver ID:", receiverId);
-
 } catch (error) {
 
-    console.log("Token Error:", error);
+    console.error(
+        "Token Error:",
+        error
+    );
 
     localStorage.removeItem("token");
 
-    alert("Login session expired");
-
-    window.location.href = "login.html";
+    window.location.href =
+        "login.html";
 
 }
 
 
 // ===============================
-// LOAD RECEIVER
+// DASHBOARD
 // ===============================
 
-async function loadReceiver() {
+function goToDashboard() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+// ===============================
+// GET INITIAL RECEIVER
+// ===============================
+
+function getInitialReceiverId() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const queryId =
+        params.get("receiver") ||
+        params.get("userId");
+
+
+    if (queryId) {
+
+        return Number(queryId);
+
+    }
+
+
+    const storedId =
+        localStorage.getItem("viewUserId");
+
+
+    if (storedId) {
+
+        return Number(storedId);
+
+    }
+
+
+    return null;
+
+}
+
+
+// ===============================
+// LOAD CHAT LIST
+// ===============================
+
+async function loadChatList(autoSelect = false) {
 
     try {
 
-        const res = await fetch(
-            USER_API + receiverId,
-            {
-                method: "GET",
-
-                headers: {
-                    Authorization:
-                        "Bearer " + token
+        const response =
+            await fetch(
+                CHAT_API + "list",
+                {
+                    headers: {
+                        Authorization:
+                            "Bearer " + token
+                    }
                 }
-            }
-        );
-
-
-        const data = await res.json();
-
-        console.log("Receiver API Response:", data);
-
-
-        if (!res.ok) {
-
-            receiverName.innerText =
-                "Unknown User";
-
-            console.log(
-                "Receiver API Error:",
-                data
             );
+
+
+        if (response.status === 401) {
+
+            localStorage.removeItem("token");
+
+            alert(
+                "Session expired. Please login again."
+            );
+
+            window.location.href =
+                "login.html";
 
             return;
 
         }
 
 
-        let user = null;
+        const data =
+            await response.json();
 
 
-        // ===============================
-        // HANDLE DIFFERENT RESPONSE TYPES
-        // ===============================
+        console.log(
+            "Chat List:",
+            data
+        );
 
-        if (Array.isArray(data.user)) {
 
-            user = data.user[0];
+        chatList.innerHTML = "";
 
-        } else if (
-            data.user &&
-            typeof data.user === "object"
+
+        const initialReceiverId =
+            getInitialReceiverId();
+
+
+        // ==========================================
+        // NO EXISTING CHATS
+        // ==========================================
+
+        if (
+            !data.success ||
+            !Array.isArray(data.chats) ||
+            data.chats.length === 0
         ) {
 
-            user = data.user;
+            emptyChatList.style.display =
+                "block";
 
+
+            // IMPORTANT:
+            // If user came from Find Skills
+            // with a receiver ID, open that user
+            // even though no previous chat exists.
+
+            if (
+                initialReceiverId &&
+                initialReceiverId !== myId
+            ) {
+
+                await openNewConversation(
+                    initialReceiverId
+                );
+
+            }
+
+            return;
         }
 
 
-        // ===============================
-        // USER FOUND
-        // ===============================
+        emptyChatList.style.display =
+            "none";
 
-        if (user) {
 
-            receiverName.innerText =
-                user.name || "Unknown User";
+        let receiverFoundInList =
+            false;
 
-            console.log(
-                "Receiver Found:",
-                user
+
+        data.chats.forEach(chat => {
+
+            const item =
+                document.createElement("div");
+
+
+            const chatUserId =
+                Number(chat.user_id);
+
+
+            item.className =
+                "chat-item";
+
+
+            item.dataset.userId =
+                chatUserId;
+
+
+            if (
+                currentReceiverId &&
+                chatUserId === currentReceiverId
+            ) {
+
+                item.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            const unread =
+                Number(chat.unreadCount) || 0;
+
+
+            item.innerHTML = `
+
+                <div class="chat-avatar">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </div>
+
+
+                <div class="chat-item-content">
+
+                    <div class="chat-item-top">
+
+                        <span class="chat-item-name">
+
+                            ${escapeHTML(chat.name)}
+
+                        </span>
+
+
+                        <span class="chat-item-time">
+
+                            ${formatListTime(
+                                chat.last_message_time
+                            )}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="chat-last-message">
+
+                        ${
+                            chat.last_message
+                                ? escapeHTML(
+                                    chat.last_message
+                                  )
+                                : "No messages"
+                        }
+
+                    </div>
+
+                </div>
+
+
+                ${
+                    unread > 0
+                        ? `
+                            <span class="chat-unread">
+
+                                ${
+                                    unread > 99
+                                        ? "99+"
+                                        : unread
+                                }
+
+                            </span>
+                        `
+                        : ""
+                }
+
+            `;
+
+
+            item.addEventListener(
+                "click",
+                () => {
+
+                    openChat(
+                        chatUserId,
+                        chat.name
+                    );
+
+                }
             );
 
-        } else {
 
-            receiverName.innerText =
-                "Unknown User";
+            chatList.appendChild(item);
 
-            console.log(
-                "User not found in response"
+
+            if (
+                initialReceiverId &&
+                chatUserId === initialReceiverId
+            ) {
+
+                receiverFoundInList =
+                    true;
+
+            }
+
+        });
+
+
+        // ==========================================
+        // RECEIVER ALREADY HAS CHAT
+        // ==========================================
+
+        if (
+            initialReceiverId &&
+            receiverFoundInList &&
+            initialReceiverId !== myId
+        ) {
+
+            const selectedChat =
+                data.chats.find(
+                    chat =>
+                        Number(chat.user_id) ===
+                        initialReceiverId
+                );
+
+
+            if (selectedChat) {
+
+                await openChat(
+                    Number(
+                        selectedChat.user_id
+                    ),
+                    selectedChat.name
+                );
+
+            }
+
+            return;
+        }
+
+
+        // ==========================================
+        // RECEIVER HAS NO PREVIOUS CHAT
+        // ==========================================
+
+        if (
+            initialReceiverId &&
+            !receiverFoundInList &&
+            initialReceiverId !== myId
+        ) {
+
+            await openNewConversation(
+                initialReceiverId
+            );
+
+            return;
+        }
+
+
+        // ==========================================
+        // NORMAL SIDEBAR CHAT OPEN
+        // ==========================================
+
+        if (
+            autoSelect &&
+            !initialReceiverId &&
+            data.chats.length > 0
+        ) {
+
+            const first =
+                data.chats[0];
+
+
+            await openChat(
+                Number(first.user_id),
+                first.name
             );
 
         }
@@ -162,13 +434,323 @@ async function loadReceiver() {
 
     } catch (error) {
 
-        console.log(
-            "Receiver Error:",
+        console.error(
+            "Chat List Error:",
             error
         );
 
-        receiverName.innerText =
-            "Unknown User";
+    }
+
+}
+
+
+// ===============================
+// OPEN NEW CONVERSATION
+// ===============================
+
+async function openNewConversation(
+    userId
+) {
+
+    currentReceiverId =
+        Number(userId);
+
+
+    if (!currentReceiverId) {
+
+        return;
+
+    }
+
+
+    if (
+        currentReceiverId === myId
+    ) {
+
+        alert(
+            "You cannot chat with yourself."
+        );
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        "viewUserId",
+        String(currentReceiverId)
+    );
+
+
+    // Get user name from users API
+
+    try {
+
+        const response =
+            await fetch(
+                USER_API + currentReceiverId,
+                {
+                    headers: {
+                        Authorization:
+                            "Bearer " + token
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.ok &&
+            data.success &&
+            data.user
+        ) {
+
+            const user =
+                Array.isArray(data.user)
+                    ? data.user[0]
+                    : data.user;
+
+
+            showActiveChat(
+                currentReceiverId,
+                user.name || "User"
+            );
+
+
+        } else {
+
+            alert(
+                "User not found."
+            );
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Open New Conversation Error:",
+            error
+        );
+
+    }
+
+}
+
+
+// ===============================
+// SHOW ACTIVE CHAT
+// ===============================
+
+function showActiveChat(
+    userId,
+    name
+) {
+
+    currentReceiverId =
+        Number(userId);
+
+
+    receiverName.innerText =
+        name;
+
+
+    receiverStatus.innerText =
+        "SkillSync User";
+
+
+    noChatSelected.classList.add(
+        "hidden"
+    );
+
+
+    activeChat.classList.remove(
+        "hidden"
+    );
+
+
+    chatPage.classList.add(
+        "show-conversation"
+    );
+
+
+    // Highlight existing item if present
+
+    document
+        .querySelectorAll(".chat-item")
+        .forEach(item => {
+
+            item.classList.remove(
+                "active"
+            );
+
+
+            if (
+                Number(
+                    item.dataset.userId
+                ) === currentReceiverId
+            ) {
+
+                item.classList.add(
+                    "active"
+                );
+
+            }
+
+        });
+
+
+    messageInput.focus();
+
+}
+
+
+// ===============================
+// OPEN EXISTING CHAT
+// ===============================
+
+async function openChat(
+    userId,
+    name
+) {
+
+    currentReceiverId =
+        Number(userId);
+
+
+    if (!currentReceiverId) {
+
+        return;
+
+    }
+
+
+    if (
+        currentReceiverId === myId
+    ) {
+
+        alert(
+            "You cannot chat with yourself."
+        );
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        "viewUserId",
+        String(currentReceiverId)
+    );
+
+
+    showActiveChat(
+        currentReceiverId,
+        name || "User"
+    );
+
+
+    await loadReceiverName(
+        currentReceiverId
+    );
+
+
+    lastMessageSignature = "";
+
+
+    await loadMessages(
+        currentReceiverId
+    );
+
+
+    // Refresh list after marking read
+
+    await loadChatList(
+        false
+    );
+
+
+    // Re-highlight selected chat
+
+    const selectedItem =
+        document.querySelector(
+            `[data-user-id="${currentReceiverId}"]`
+        );
+
+
+    if (selectedItem) {
+
+        selectedItem.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+// ===============================
+// LOAD RECEIVER NAME
+// ===============================
+
+async function loadReceiverName(
+    userId
+) {
+
+    try {
+
+        const response =
+            await fetch(
+                USER_API + userId,
+                {
+                    headers: {
+                        Authorization:
+                            "Bearer " + token
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success ||
+            !data.user
+        ) {
+
+            return;
+
+        }
+
+
+        const user =
+            Array.isArray(data.user)
+                ? data.user[0]
+                : data.user;
+
+
+        if (
+            user &&
+            user.name
+        ) {
+
+            receiverName.innerText =
+                user.name;
+
+        }
+
+    } catch (error) {
+
+        console.log(
+            "Receiver Name Error:",
+            error
+        );
 
     }
 
@@ -179,32 +761,33 @@ async function loadReceiver() {
 // LOAD MESSAGES
 // ===============================
 
-async function loadMessages() {
+async function loadMessages(
+    receiverId
+) {
+
+    if (!receiverId) {
+
+        return;
+
+    }
+
 
     try {
 
-        const res = await fetch(
-            API + receiverId,
-            {
-                headers: {
-                    Authorization:
-                        "Bearer " + token
+        const response =
+            await fetch(
+                CHAT_API + receiverId,
+                {
+                    headers: {
+                        Authorization:
+                            "Bearer " + token
+                    }
                 }
-            }
-        );
+            );
 
 
         const data =
-            await res.json();
-
-
-        console.log(
-            "Messages Response:",
-            data
-        );
-
-
-        messagesBox.innerHTML = "";
+            await response.json();
 
 
         if (
@@ -212,58 +795,102 @@ async function loadMessages() {
             !Array.isArray(data.messages)
         ) {
 
+            // New conversation = no messages
+            messagesBox.innerHTML = "";
+
+            lastMessageSignature = "";
+
             return;
 
         }
 
 
-        data.messages.forEach(msg => {
-
-            const row =
-                document.createElement("div");
-
-
-            // My message → RIGHT
-
-            if (
-                Number(msg.sender_id) === myId
-            ) {
-
-                row.className =
-                    "message-row sent";
-
-            }
-
-            // Other message → LEFT
-
-            else {
-
-                row.className =
-                    "message-row received";
-
-            }
+        const signature =
+            data.messages
+                .map(
+                    msg =>
+                        `${msg.id}-${msg.is_read}-${msg.message}`
+                )
+                .join("|");
 
 
-            row.innerHTML = `
+        // Don't rebuild if unchanged
 
-                <div class="message-bubble">
+        if (
+            signature ===
+            lastMessageSignature
+        ) {
 
-                    <div class="message-text">
-                        ${escapeHTML(msg.message)}
+            return;
+
+        }
+
+
+        lastMessageSignature =
+            signature;
+
+
+        messagesBox.innerHTML = "";
+
+
+        data.messages.forEach(
+            msg => {
+
+                const row =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                if (
+                    Number(
+                        msg.sender_id
+                    ) === myId
+                ) {
+
+                    row.className =
+                        "message-row sent";
+
+                } else {
+
+                    row.className =
+                        "message-row received";
+
+                }
+
+
+                row.innerHTML = `
+
+                    <div class="message-bubble">
+
+                        <div class="message-text">
+
+                            ${escapeHTML(
+                                msg.message
+                            )}
+
+                        </div>
+
+
+                        <div class="message-time">
+
+                            ${formatMessageTime(
+                                msg.sent_at
+                            )}
+
+                        </div>
+
                     </div>
 
-                    <div class="message-time">
-                        ${formatTime(msg.sent_at)}
-                    </div>
-
-                </div>
-
-            `;
+                `;
 
 
-            messagesBox.appendChild(row);
+                messagesBox.appendChild(
+                    row
+                );
 
-        });
+            }
+        );
 
 
         messagesBox.scrollTop =
@@ -272,8 +899,8 @@ async function loadMessages() {
 
     } catch (error) {
 
-        console.log(
-            "Message Load Error:",
+        console.error(
+            "Load Messages Error:",
             error
         );
 
@@ -293,14 +920,29 @@ async function sendMessage() {
 
 
     if (!message) {
+
         return;
+
     }
 
 
-    if (receiverId === myId) {
+    if (!currentReceiverId) {
 
         alert(
-            "You cannot send message to yourself."
+            "Please select a conversation first."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        currentReceiverId === myId
+    ) {
+
+        alert(
+            "You cannot message yourself."
         );
 
         return;
@@ -310,43 +952,38 @@ async function sendMessage() {
 
     try {
 
-        const res = await fetch(
-            API + "send",
-            {
-                method: "POST",
+        const response =
+            await fetch(
+                CHAT_API + "send",
+                {
+                    method: "POST",
 
-                headers: {
+                    headers: {
 
-                    "Content-Type":
-                        "application/json",
+                        "Content-Type":
+                            "application/json",
 
-                    Authorization:
-                        "Bearer " + token
+                        Authorization:
+                            "Bearer " + token
 
-                },
+                    },
 
-                body: JSON.stringify({
+                    body: JSON.stringify({
 
-                    receiver_id:
-                        receiverId,
+                        receiver_id:
+                            currentReceiverId,
 
-                    message:
-                        message
+                        message:
+                            message
 
-                })
+                    })
 
-            }
-        );
+                }
+            );
 
 
         const data =
-            await res.json();
-
-
-        console.log(
-            "Send Response:",
-            data
-        );
+            await response.json();
 
 
         if (!data.success) {
@@ -361,21 +998,35 @@ async function sendMessage() {
         }
 
 
-        messageInput.value = "";
+        messageInput.value =
+            "";
 
 
-        await loadMessages();
+        lastMessageSignature = "";
+
+
+        await loadMessages(
+            currentReceiverId
+        );
+
+
+        await loadChatList(
+            false
+        );
+
+
+        messageInput.focus();
 
 
     } catch (error) {
 
-        console.log(
-            "Send Error:",
+        console.error(
+            "Send Message Error:",
             error
         );
 
         alert(
-            "Unable to Send Message"
+            "Unable to send message"
         );
 
     }
@@ -384,13 +1035,86 @@ async function sendMessage() {
 
 
 // ===============================
-// FORMAT TIME
+// ENTER TO SEND
 // ===============================
 
-function formatTime(dateString) {
+messageInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+// ===============================
+// SEARCH CHATS
+// ===============================
+
+chatSearch.addEventListener(
+    "keyup",
+    function() {
+
+        const value =
+            this.value
+                .toLowerCase()
+                .trim();
+
+
+        document
+            .querySelectorAll(".chat-item")
+            .forEach(item => {
+
+                const text =
+                    item.innerText
+                        .toLowerCase();
+
+
+                item.style.display =
+                    text.includes(value)
+                        ? "flex"
+                        : "none";
+
+            });
+
+    }
+);
+
+
+// ===============================
+// MOBILE CHAT LIST
+// ===============================
+
+function showChatList() {
+
+    chatPage.classList.remove(
+        "show-conversation"
+    );
+
+}
+
+
+// ===============================
+// TIME
+// ===============================
+
+function formatMessageTime(
+    dateString
+) {
 
     if (!dateString) {
+
         return "";
+
     }
 
 
@@ -409,6 +1133,52 @@ function formatTime(dateString) {
 }
 
 
+function formatListTime(
+    dateString
+) {
+
+    if (!dateString) {
+
+        return "";
+
+    }
+
+
+    const date =
+        new Date(dateString);
+
+
+    const now =
+        new Date();
+
+
+    if (
+        date.toDateString() ===
+        now.toDateString()
+    ) {
+
+        return date.toLocaleTimeString(
+            [],
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    }
+
+
+    return date.toLocaleDateString(
+        [],
+        {
+            day: "2-digit",
+            month: "2-digit"
+        }
+    );
+
+}
+
+
 // ===============================
 // SECURITY
 // ===============================
@@ -416,10 +1186,12 @@ function formatTime(dateString) {
 function escapeHTML(text) {
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     div.textContent =
-        text || "";
+        text ?? "";
 
     return div.innerHTML;
 
@@ -427,22 +1199,29 @@ function escapeHTML(text) {
 
 
 // ===============================
-// ENTER KEY
+// AUTO REFRESH
 // ===============================
 
-messageInput.addEventListener(
-    "keydown",
-    function (event) {
+setInterval(
+    async () => {
 
-        if (event.key === "Enter") {
+        if (currentReceiverId) {
 
-            event.preventDefault();
-
-            sendMessage();
+            await loadMessages(
+                currentReceiverId
+            );
 
         }
 
-    }
+        // Refresh list only if needed;
+        // current chat won't blink because
+        // loadMessages doesn't rebuild unless
+        // messages changed.
+
+        await loadChatList(false);
+
+    },
+    3000
 );
 
 
@@ -450,14 +1229,4 @@ messageInput.addEventListener(
 // INITIAL LOAD
 // ===============================
 
-loadReceiver();
-
-loadMessages();
-
-
-// Refresh messages
-
-setInterval(
-    loadMessages,
-    2000
-);
+loadChatList(true);

@@ -5,14 +5,22 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>SkillSync - Dashboard</title>
 
-    <link rel="stylesheet" href="dashboard.css">
+
+    <!-- Dashboard CSS -->
 
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+          href="dashboard.css">
+
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
@@ -26,6 +34,7 @@
 
         <h2>SkillSync</h2>
 
+
         <ul>
 
 
@@ -37,7 +46,7 @@
 
                 <i class="fa-solid fa-house"></i>
 
-                Dashboard
+                <span>Dashboard</span>
 
             </li>
 
@@ -50,7 +59,7 @@
 
                 <i class="fa-solid fa-user"></i>
 
-                Profile
+                <span>Profile</span>
 
             </li>
 
@@ -63,7 +72,7 @@
 
                 <i class="fa-solid fa-code"></i>
 
-                My Skills
+                <span>My Skills</span>
 
             </li>
 
@@ -76,7 +85,7 @@
 
                 <i class="fa-solid fa-magnifying-glass"></i>
 
-                Find Skills
+                <span>Find Skills</span>
 
             </li>
 
@@ -89,7 +98,7 @@
 
                 <i class="fa-solid fa-users"></i>
 
-                Matches
+                <span>Matches</span>
 
             </li>
 
@@ -98,11 +107,19 @@
             <!-- Chat -->
 
             <li
+                id="chatMenu"
                 onclick="goTo('chat.html')">
 
                 <i class="fa-solid fa-comments"></i>
 
-                Chat
+                <span>Chat</span>
+
+                <!-- Unread Badge -->
+
+                <span
+                    id="unreadBadge"
+                    class="unread-badge">
+                </span>
 
             </li>
 
@@ -115,7 +132,7 @@
 
                 <i class="fa-solid fa-calendar"></i>
 
-                Sessions
+                <span>Sessions</span>
 
             </li>
 
@@ -128,7 +145,7 @@
 
                 <i class="fa-solid fa-star"></i>
 
-                Reviews
+                <span>Reviews</span>
 
             </li>
 
@@ -141,7 +158,20 @@
 
                 <i class="fa-solid fa-bell"></i>
 
-                Notifications
+                <span>Notifications</span>
+
+            </li>
+
+
+
+            <!-- Settings -->
+
+            <li
+                onclick="goTo('settings.html')">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>Settings</span>
 
             </li>
 
@@ -154,7 +184,7 @@
 
                 <i class="fa-solid fa-right-from-bracket"></i>
 
-                Logout
+                <span>Logout</span>
 
             </li>
 
@@ -183,6 +213,7 @@
 
             <div
                 class="profile"
+                id="topProfile"
                 onclick="goTo('profile.html')">
 
 
@@ -217,34 +248,29 @@
 
         <section class="welcome">
 
-
             <div>
 
                 <h1>
                     Welcome Back 👋
                 </h1>
 
-
                 <p>
-
                     Learn new skills, share your knowledge,
                     and grow together.
-
                 </p>
 
             </div>
-
 
         </section>
 
 
 
-        <!-- ================= DASHBOARD CARDS ================= -->
+        <!-- ================= CARDS ================= -->
 
         <div class="cards">
 
 
-            <!-- Skills I Can Teach -->
+            <!-- Teach -->
 
             <div class="card">
 
@@ -252,11 +278,9 @@
                     Skills I Can Teach
                 </h3>
 
-
                 <h1>
                     3
                 </h1>
-
 
                 <p>
                     Java, Python, HTML
@@ -266,7 +290,7 @@
 
 
 
-            <!-- Skills I Want To Learn -->
+            <!-- Learn -->
 
             <div class="card">
 
@@ -274,11 +298,9 @@
                     Skills I Want To Learn
                 </h3>
 
-
                 <h1>
                     2
                 </h1>
-
 
                 <p>
                     React, Node.js
@@ -288,7 +310,7 @@
 
 
 
-            <!-- Upcoming Sessions -->
+            <!-- Sessions -->
 
             <div class="card">
 
@@ -296,11 +318,9 @@
                     Upcoming Sessions
                 </h3>
 
-
                 <h1>
                     4
                 </h1>
-
 
                 <p>
                     This Week
@@ -323,7 +343,6 @@
             </h2>
 
 
-
             <div class="match-box">
 
 
@@ -331,11 +350,9 @@
 
                 <div class="user">
 
-
                     <img
                         src="https://api.dicebear.com/9.x/notionists/svg?seed=Ruban"
                         alt="Ruban">
-
 
 
                     <h3>
@@ -349,14 +366,13 @@
 
 
                     <button
-                        onclick="openChat(2)">
+                        onclick="openChat(11)">
 
                         <i class="fa-solid fa-comments"></i>
 
                         Chat
 
                     </button>
-
 
                 </div>
 
@@ -366,11 +382,9 @@
 
                 <div class="user">
 
-
                     <img
                         src="https://api.dicebear.com/9.x/notionists/svg?seed=Murali"
                         alt="Murali">
-
 
 
                     <h3>
@@ -392,34 +406,31 @@
 
                     </button>
 
-
                 </div>
 
 
 
-                <!-- Aashik -->
+                <!-- Rahul -->
 
                 <div class="user">
 
-
                     <img
-                        src="https://api.dicebear.com/9.x/notionists/svg?seed=Aashik"
-                        alt="Aashik">
-
+                        src="https://api.dicebear.com/9.x/notionists/svg?seed=Rahul"
+                        alt="Rahul">
 
 
                     <h3>
-                        Aashik
+                        Rahul
                     </h3>
 
 
                     <p>
-                        UI/UX Designer
+                        Learner
                     </p>
 
 
                     <button
-                        onclick="openChat(6)">
+                        onclick="openChat(9)">
 
                         <i class="fa-solid fa-comments"></i>
 
@@ -427,53 +438,48 @@
 
                     </button>
 
-
                 </div>
 
 
 
-                <!-- Priyan -->
+                <!-- Mugesh -->
 
                 <div class="user">
 
-
                     <img
-                        src="https://api.dicebear.com/9.x/notionists/svg?seed=Priyan"
-                        alt="Priyan">
-
+                        src="https://api.dicebear.com/9.x/notionists/svg?seed=Mugesh"
+                        alt="Mugesh">
 
 
                     <h3>
-                        Priyan
+                        Mugesh
                     </h3>
 
 
                     <p>
-                        Java Developer
+                        SkillSync User
                     </p>
 
 
                     <button
-                        onclick="openChat(7)">
+                        onclick="openChat(12)">
 
                         <i class="fa-solid fa-comments"></i>
 
                         Chat
 
                     </button>
-
 
                 </div>
 
 
             </div>
 
-
         </section>
 
 
 
-        <!-- ================= NOTIFICATIONS ================= -->
+        <!-- ================= RECENT NOTIFICATIONS ================= -->
 
         <section class="activity">
 
@@ -485,21 +491,17 @@
 
             <ul>
 
-
                 <li>
                     ✅ Rahul accepted your session request.
                 </li>
-
 
                 <li>
                     💬 Priya sent you a message.
                 </li>
 
-
                 <li>
                     ⭐ You received a new review.
                 </li>
-
 
             </ul>
 
@@ -513,156 +515,7 @@
 
     <!-- ================= JAVASCRIPT ================= -->
 
-    <script>
-
-
-        // ===============================
-        // PAGE NAVIGATION
-        // ===============================
-
-        function goTo(page) {
-
-            window.location.href = page;
-
-        }
-
-
-
-        // ===============================
-        // OPEN CHAT
-        // ===============================
-
-        function openChat(userId) {
-
-            // Save receiver ID
-            localStorage.setItem(
-                "viewUserId",
-                userId
-            );
-
-
-            // Open chat
-            window.location.href =
-                "chat.html";
-
-        }
-
-
-
-        // ===============================
-        // LOGOUT
-        // ===============================
-
-        function logout() {
-
-            localStorage.removeItem("token");
-
-            localStorage.removeItem("viewUserId");
-
-            window.location.href =
-                "login.html";
-
-        }
-
-
-
-        // ===============================
-        // LOAD USER NAME
-        // ===============================
-
-        async function loadUserName() {
-
-            const token =
-                localStorage.getItem("token");
-
-
-            if (!token) {
-
-                window.location.href =
-                    "login.html";
-
-                return;
-
-            }
-
-
-            try {
-
-
-                const response =
-                    await fetch(
-                        "http://localhost:5000/api/auth/profile",
-                        {
-
-                            headers: {
-
-                                Authorization:
-                                    "Bearer " + token
-
-                            }
-
-                        }
-                    );
-
-
-
-                const data =
-                    await response.json();
-
-
-
-                console.log(
-                    "Profile Data:",
-                    data
-                );
-
-
-
-                if (
-                    data.success &&
-                    data.user
-                ) {
-
-                    document
-                        .getElementById(
-                            "topUsername"
-                        )
-                        .innerText =
-                        data.user.name;
-
-                }
-
-
-            }
-            catch (error) {
-
-                console.log(
-                    "Profile Load Error:",
-                    error
-                );
-
-
-                document
-                    .getElementById(
-                        "topUsername"
-                    )
-                    .innerText =
-                    "User";
-
-            }
-
-        }
-
-
-
-        // ===============================
-        // INITIAL LOAD
-        // ===============================
-
-        loadUserName();
-
-
-    </script>
+    <script src="dashboard.js"></script>
 
 
 </body>

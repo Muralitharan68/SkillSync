@@ -5,87 +5,225 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>SkillSync - Chat</title>
 
-    <link rel="stylesheet" href="chat.css">
+    <link rel="stylesheet"
+          href="chat.css">
 
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
 </head>
 
+
 <body>
 
-    <div class="container">
 
-        <!-- ================= CHAT HEADER ================= -->
+<div class="chat-page">
 
-        <div class="header">
 
-            <button class="back-btn" onclick="history.back()">
-                <i class="fa-solid fa-arrow-left"></i>
-            </button>
+    <!-- ================= LEFT CHAT LIST ================= -->
 
-            <div class="user-icon">
-                <i class="fa-solid fa-user"></i>
-            </div>
+    <aside class="chat-list-panel">
 
-            <div class="user-details">
 
-                <h3 id="receiverName">
-                    Loading...
-                </h3>
+        <div class="chat-list-header">
+
+            <div>
+
+                <h2>
+                    Chats
+                </h2>
 
                 <p>
-                    SkillSync User
+                    Your conversations
                 </p>
 
             </div>
 
-        </div>
 
+            <button
+                class="back-dashboard"
+                onclick="goToDashboard()">
 
-        <!-- ================= MESSAGES ================= -->
-
-        <div id="messages" class="messages">
-
-            <!-- Messages will load here -->
-
-        </div>
-
-
-        <!-- ================= MESSAGE INPUT ================= -->
-
-        <div class="bottom">
-
-            <input
-                type="text"
-                id="message"
-                placeholder="Type a message..."
-                autocomplete="off"
-            >
-
-            <button onclick="sendMessage()">
-
-                <i class="fa-solid fa-paper-plane"></i>
-
-                Send
+                <i class="fa-solid fa-house"></i>
 
             </button>
 
         </div>
 
-    </div>
+
+        <!-- Search Chat -->
+
+        <div class="chat-search">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="chatSearch"
+                placeholder="Search chats..."
+                autocomplete="off">
+
+        </div>
 
 
-    <!-- ================= JAVASCRIPT ================= -->
+        <!-- Chat List -->
 
-    <script src="chat.js"></script>
+        <div
+            id="chatList"
+            class="chat-list">
+
+            <!-- Chat users will load here -->
+
+        </div>
+
+
+        <!-- Empty Chat List -->
+
+        <div
+            id="emptyChatList"
+            class="empty-chat-list">
+
+            <i class="fa-regular fa-comments"></i>
+
+            <h3>
+                No Conversations
+            </h3>
+
+            <p>
+                Start a chat from Find Skills.
+            </p>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- ================= RIGHT CHAT AREA ================= -->
+
+    <main class="chat-area">
+
+
+        <!-- No Chat Selected -->
+
+        <div
+            id="noChatSelected"
+            class="no-chat-selected">
+
+            <i class="fa-regular fa-comments"></i>
+
+            <h2>
+                Select a Conversation
+            </h2>
+
+            <p>
+                Choose someone from the chat list to start messaging.
+            </p>
+
+        </div>
+
+
+
+        <!-- Active Chat -->
+
+        <div
+            id="activeChat"
+            class="active-chat hidden">
+
+
+            <!-- Header -->
+
+            <div class="chat-header">
+
+
+                <button
+                    class="mobile-back"
+                    onclick="showChatList()">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                </button>
+
+
+                <div class="chat-user-avatar">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </div>
+
+
+                <div class="chat-user-info">
+
+                    <h3 id="receiverName">
+                        Loading...
+                    </h3>
+
+                    <p id="receiverStatus">
+                        SkillSync User
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Messages -->
+
+            <div
+                id="messages"
+                class="messages">
+
+            </div>
+
+
+
+            <!-- Input -->
+
+            <div class="message-input-area">
+
+
+                <input
+                    type="text"
+                    id="message"
+                    placeholder="Type a message..."
+                    autocomplete="off">
+
+
+                <button
+                    onclick="sendMessage()">
+
+                    <i class="fa-solid fa-paper-plane"></i>
+
+                    Send
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+<script src="chat.js"></script>
 
 </body>
 

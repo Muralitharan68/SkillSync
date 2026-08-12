@@ -1,149 +1,351 @@
+// ================================
+// TOKEN CHECK
+// ================================
+
 const token = localStorage.getItem("token");
 
 if (!token) {
+
     alert("Please Login First");
+
     window.location.href = "login.html";
+
+    throw new Error("Token not found");
 }
 
-// ==========================
-// Load User Profile
-// ==========================
-fetch("http://localhost:5000/api/auth/profile", {
-    method: "GET",
-    headers: {
-        Authorization: "Bearer " + token
-    }
-})
-.then(res => res.json())
-.then(data => {
 
-    if (data.success) {
+// ================================
+// PAGE NAVIGATION
+// ================================
 
-        // Username
-        document.getElementById("topUsername").innerText = data.user.name;
+function goTo(page) {
 
-        // Profile Image
-        if (data.user.profile_image) {
+    window.location.href = page;
 
-            document.getElementById("topProfileImage").src =
-                "http://localhost:5000/uploads/" + data.user.profile_image;
+}
+
+
+// ================================
+// OPEN CHAT
+// ================================
+
+function openChat(userId) {
+
+    localStorage.setItem(
+        "viewUserId",
+        String(userId)
+    );
+
+    window.location.href =
+        "chat.html";
+
+}
+
+
+// ================================
+// LOGOUT
+// ================================
+
+function logout() {
+
+    localStorage.removeItem("token");
+
+    localStorage.removeItem("viewUserId");
+
+    localStorage.removeItem("receiverName");
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+// ================================
+// LOAD USER PROFILE
+// ================================
+
+async function loadUserProfile() {
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:5000/api/auth/profile",
+            {
+                method: "GET",
+
+                headers: {
+                    Authorization:
+                        "Bearer " + token
+                }
+            }
+        );
+
+
+        if (response.status === 401) {
+
+            localStorage.removeItem("token");
+
+            alert(
+                "Session expired. Please login again."
+            );
+
+            window.location.href =
+                "login.html";
+
+            return;
 
         }
 
-    } else {
 
-        alert(data.message);
+        const data =
+            await response.json();
 
-    }
 
-})
-.catch(err => {
+        console.log(
+            "Profile Data:",
+            data
+        );
 
-    console.log(err);
 
-});
+        if (
+            data.success &&
+            data.user
+        ) {
 
-// ==========================
-// Search Users
-// ==========================
+            const username =
+                document.getElementById(
+                    "topUsername"
+                );
 
-const searchBox = document.querySelector(".topbar input");
+            if (username) {
 
-if (searchBox) {
-
-    searchBox.addEventListener("keyup", function () {
-
-        const value = this.value.toLowerCase();
-
-        const users = document.querySelectorAll(".user");
-
-        users.forEach(user => {
-
-            const text = user.innerText.toLowerCase();
-
-            if (text.includes(value)) {
-
-                user.style.display = "block";
-
-            } else {
-
-                user.style.display = "none";
+                username.innerText =
+                    data.user.name ||
+                    "User";
 
             }
 
-        });
 
-    });
+            const profileImage =
+                document.getElementById(
+                    "topProfileImage"
+                );
 
-}
 
-// ==========================
-// Chat Button
-// ==========================
+            if (
+                profileImage &&
+                data.user.profile_image
+            ) {
 
-const buttons = document.querySelectorAll(".user button");
+                profileImage.src =
+                    "http://localhost:5000/uploads/" +
+                    data.user.profile_image;
 
-buttons.forEach(btn => {
-
-    btn.addEventListener("click", () => {
-
-        alert("Chat feature will be available soon!");
-
-    });
-
-});
-
-// ==========================
-// Sidebar Active Effect
-// ==========================
-
-const menu = document.querySelectorAll(".sidebar li");
-
-menu.forEach(item => {
-
-    item.addEventListener("click", () => {
-
-        menu.forEach(i => i.classList.remove("active"));
-
-        item.classList.add("active");
-
-    });
-
-});
-
-// ==========================
-// Logout
-// ==========================
-
-const logout = document.querySelector(".sidebar li:last-child");
-
-if (logout) {
-
-    logout.addEventListener("click", () => {
-
-        const confirmLogout = confirm("Are you sure you want to logout?");
-
-        if (confirmLogout) {
-
-            localStorage.removeItem("token");
-            localStorage.removeItem("username");
-
-            window.location.href = "login.html";
+            }
 
         }
 
-    });
+    }
+    catch (error) {
+
+        console.error(
+            "Profile Load Error:",
+            error
+        );
+
+    }
 
 }
 
-// ==========================
-// Notifications
-// ==========================
 
-const notifications = [
-    "Rahul accepted your session request.",
-    "Priya sent you a message.",
-    "You received a new review."
-];
+// ================================
+// UNREAD MESSAGE COUNT
+// ================================
 
-console.log("Notifications:", notifications);
+async function loadUnreadCount() {
+
+    try {
+
+        const response =
+            await fetch(
+                "http://localhost:5000/api/chat/unread/count",
+                {
+                    method: "GET",
+
+                    headers: {
+                        Authorization:
+                            "Bearer " + token
+                    }
+                }
+            );
+
+
+        if (response.status === 401) {
+
+            console.log(
+                "Token expired while loading unread count"
+            );
+
+            return;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Unread Count:",
+            data
+        );
+
+
+        const badge =
+            document.getElementById(
+                "unreadBadge"
+            );
+
+
+        if (!badge) {
+            return;
+        }
+
+
+        const count =
+            Number(data.unreadCount) || 0;
+
+
+        if (
+            data.success &&
+            count > 0
+        ) {
+
+            badge.innerText =
+                count > 99
+                    ? "99+"
+                    : count;
+
+
+            badge.classList.add(
+                "show"
+            );
+
+        }
+        else {
+
+            badge.innerText = "";
+
+            badge.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Unread Count Error:",
+            error
+        );
+
+    }
+
+}
+
+
+// ================================
+// TOP PROFILE CLICK
+// ================================
+
+const topProfile =
+    document.querySelector(".profile");
+
+
+if (topProfile) {
+
+    topProfile.addEventListener(
+        "click",
+        function () {
+
+            goTo("profile.html");
+
+        }
+    );
+
+}
+
+
+// ================================
+// SEARCH
+// ================================
+
+const searchBox =
+    document.querySelector(
+        ".topbar input"
+    );
+
+
+if (searchBox) {
+
+    searchBox.addEventListener(
+        "keyup",
+        function () {
+
+            const value =
+                this.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const users =
+                document.querySelectorAll(
+                    ".user"
+                );
+
+
+            users.forEach(user => {
+
+                const text =
+                    user.innerText
+                        .toLowerCase();
+
+
+                if (
+                    text.includes(value)
+                ) {
+
+                    user.style.display =
+                        "block";
+
+                }
+                else {
+
+                    user.style.display =
+                        "none";
+
+                }
+
+            });
+
+        }
+    );
+
+}
+
+
+// ================================
+// INITIAL LOAD
+// ================================
+
+loadUserProfile();
+
+loadUnreadCount();
+
+
+// Check unread count every 5 seconds
+setInterval(
+    loadUnreadCount,
+    5000
+);

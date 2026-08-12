@@ -2,101 +2,269 @@ const API = "http://localhost:5000/api/users/";
 
 const token = localStorage.getItem("token");
 
-// Login Check
+
+// ===============================
+// LOGIN CHECK
+// ===============================
+
 if (!token) {
+
     alert("Please Login First");
+
     window.location.href = "login.html";
+
 }
 
-// Get User ID
-const userId = localStorage.getItem("viewUserId");
 
-console.log("User ID:", userId);
+// ===============================
+// GET USER ID
+// ===============================
+
+const params =
+    new URLSearchParams(window.location.search);
+
+const urlUserId =
+    params.get("id");
+
+
+// localStorage fallback
+const savedUserId =
+    localStorage.getItem("viewUserId");
+
+
+const userId =
+    urlUserId || savedUserId;
+
+
+console.log("Profile User ID:", userId);
+
 
 if (!userId) {
+
     alert("User ID Not Found");
+
     window.location.href = "findskills.html";
+
 }
 
-// Load Profile
+
+// ===============================
+// LOAD PROFILE
+// ===============================
+
 async function loadProfile() {
 
     try {
 
-        const res = await fetch(API + userId, {
-            headers: {
-                Authorization: "Bearer " + token
+        const res = await fetch(
+            API + userId,
+            {
+                method: "GET",
+
+                headers: {
+                    Authorization:
+                        "Bearer " + token
+                }
             }
-        });
+        );
 
-        const data = await res.json();
 
-        console.log(data);
+        const data =
+            await res.json();
 
-        if (!data.success) {
-            alert(data.message);
+
+        console.log(
+            "Profile Response:",
+            data
+        );
+
+
+        // Token expired
+        if (res.status === 401) {
+
+            alert(
+                "Session expired. Please login again."
+            );
+
+            localStorage.removeItem("token");
+
+            window.location.href =
+                "login.html";
+
             return;
+
         }
 
-        const user = data.user[0];
+
+        // User not found
+        if (!res.ok || !data.success || !data.user) {
+
+            alert(
+                data.message ||
+                "Unable to Load Profile"
+            );
+
+            return;
+
+        }
+
+
+        // IMPORTANT:
+        // userController now returns OBJECT
+        const user = data.user;
+
+
+        // ===============================
+        // BASIC PROFILE
+        // ===============================
 
         document.getElementById("name").innerText =
             user.name || "Not Available";
 
+
         document.getElementById("email").innerText =
             user.email || "Not Available";
+
 
         document.getElementById("college").innerText =
             user.college || "Not Available";
 
+
         document.getElementById("department").innerText =
             user.department || "Not Available";
+
 
         document.getElementById("about").innerText =
             user.about || "No About Added";
 
-        // Skills
+
+        // ===============================
+        // SKILLS
+        // ===============================
+
         const skillsContainer =
-            document.getElementById("skillsContainer");
+            document.getElementById(
+                "skillsContainer"
+            );
+
 
         skillsContainer.innerHTML = "";
 
-        data.user.forEach(skill => {
 
-            skillsContainer.innerHTML += `
+        if (
+            user.skills &&
+            Array.isArray(user.skills) &&
+            user.skills.length > 0
+        ) {
 
-                <div class="skill-card">
+            user.skills.forEach(skill => {
 
-                    <span>${skill.skill_name}</span>
+                const skillCard =
+                    document.createElement("div");
 
-                    <span class="level">
-                        ${skill.skill_level}
+
+                skillCard.className =
+                    "skill-card";
+
+
+                skillCard.innerHTML = `
+
+                    <span>
+                        ${escapeHTML(skill.name)}
                     </span>
 
-                </div>
+                    <span class="level">
+                        ${escapeHTML(skill.level)}
+                    </span>
+
+                `;
+
+
+                skillsContainer.appendChild(
+                    skillCard
+                );
+
+            });
+
+        } else {
+
+            skillsContainer.innerHTML = `
+
+                <p style="
+                    color:#888;
+                    padding:10px 0;
+                ">
+                    No skills added yet.
+                </p>
 
             `;
 
-        });
+        }
 
-    }
 
-    catch (err) {
+    } catch (error) {
 
-        console.log(err);
+        console.error(
+            "Profile Load Error:",
+            error
+        );
 
-        alert("Unable to Load Profile");
+        alert(
+            "Unable to Load Profile"
+        );
 
     }
 
 }
 
-// Chat Button
-document.querySelector(".chat-btn").addEventListener("click", () => {
 
-    alert("Chat Module Coming Soon");
+// ===============================
+// SECURITY
+// ===============================
 
-});
+function escapeHTML(text) {
 
-// Initial Load
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text ?? "";
+
+    return div.innerHTML;
+
+}
+
+
+// ===============================
+// CHAT BUTTON
+// ===============================
+
+const chatBtn =
+    document.querySelector(".chat-btn");
+
+
+if (chatBtn) {
+
+    chatBtn.addEventListener(
+        "click",
+        function () {
+
+            localStorage.setItem(
+                "viewUserId",
+                String(userId)
+            );
+
+            window.location.href =
+                "chat.html";
+
+        }
+    );
+
+}
+
+
+// ===============================
+// INITIAL LOAD
+// ===============================
+
 loadProfile();
