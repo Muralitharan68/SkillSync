@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "razorpay": "^2.9.8"
+  },
+  "devDependencies": {
+    "newman": "^6.2.2"
+  }
+}

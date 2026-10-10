@@ -1,3 +1,21 @@
+# Dependencies
+
+node_modules/
 backend/node_modules/
+
+# Secrets
+
+.env
+.env.*
+!.env.example
 backend/.env
+
+# Logs
+
 *.log
+logs/
+
+# OS files
+
+.DS_Store
+Thumbs.db
